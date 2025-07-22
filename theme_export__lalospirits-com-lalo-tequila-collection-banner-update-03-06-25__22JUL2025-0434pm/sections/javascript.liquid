@@ -1,0 +1,23 @@
+<script>
+    {{ section.settings.custom_script }}
+</script>
+
+{% schema %}
+{
+  "name": "Custom JavaScript",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "custom_script",
+      "label": "JavaScript",
+      "info": "Enter your JavaScript code here. Exclude <script></script> tags"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom JavaScript"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,55 @@
+<div class="container container--cols mt-6 lg:grid lg:grid-cols-2 min-h-[calc(100vh-114px)]">
+  <div>
+    {% if article.image %}
+      {{ article.image | image_url: width: 2048 | image_tag: class: 'object-contain w-full aspect-square' }}
+    {% else %}
+      {{ 'image' | placeholder_svg_tag: 'placeholder object-cover w-full h-full aspect-square' }}
+    {% endif %}
+  </div>
+  <div class="lg:px-16">
+    <div class="pt-10 max-w-lg h-full lg:grid lg:content-center lg:pt-12 lg:pb-32">
+      <h1 class="d2 !leading-tight">{{ article.title }}</h1>
+      <div class="rte rte--recipe max-w-sm mt-12">
+        {{ article.content }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "articleBody": {{ article.content | strip_html | json }},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": {{ request.origin | append: page.url | json }}
+    },
+    "headline": {{ article.title | json }},
+    {% if article.excerpt != blank %}
+      "description": {{ article.excerpt | strip_html | json }},
+    {% endif %}
+    {% if article.image %}
+      "image": [
+        {{ article | image_url: width: 1920 | prepend: "https:" | json }}
+      ],
+    {% endif %}
+    "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
+    "dateCreated": {{ article.created_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
+    "author": {
+      "@type": "Person",
+      "name": {{ article.author | json }}
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": {{ shop.name | json }}
+    }
+  }
+</script>
+
+{% schema %}
+  {
+    "name": "Recipe",
+    "tag": "article"
+  }
+{% endschema %}

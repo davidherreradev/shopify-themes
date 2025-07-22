@@ -1,0 +1,415 @@
+{% assign product_password = product.metafields.custom.password_protection %}
+{% assign password_message = product.metafields.custom.password_protection_message %}
+<style>
+  div#password-protect-form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 2em;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+input#password-input {
+    border: 1px solid var(--color-gray);
+    font-size: .75rem;
+    padding: 8px 12px;
+    transition: border-color var(--transition);
+    margin-bottom: 0.5em;
+}
+
+button#password-submit {
+    border: none;
+    cursor: pointer !important;
+    font-family: var(--font-expanded);
+    font-size: .625rem;
+    letter-spacing: .09375rem;
+    text-transform: uppercase;
+    transition: background-color var(--transition);
+    background-color: var(--color-blue);
+    color: #fff;
+    padding: 1em;
+}
+
+#password-protect-form label {
+    font-family: var(--font-heading);
+    font-size: .75rem;
+    font-weight: 400;
+    letter-spacing: .10938rem;
+    line-height: 1.25rem;
+    position: relative;
+    text-transform: uppercase;
+}
+
+input#password-input:focus {
+    border-color: var(--color-gold);
+    outline: none;
+}
+
+button#password-submit:hover {
+    background-color: var(--color-gold);
+}
+</style>
+
+<div class="product-page">
+
+  <div id="password-protect-form" style="display:none;">
+    <label for="password">
+      {{ password_message | default: "Enter password to view product:" }}
+    </label>
+    <input type="password" id="password-input" />
+    <button id="password-submit">Submit</button>
+    <p id="password-error-message" style="color:red; display:none;">Password is incorrect. Please try again.</p>
+  </div>
+
+  <div id="product-content" style="display:none;">
+    {% for image in product.images %}
+  {% if forloop.length > 1 %}
+    {% assign imageset = 'true' %}
+  {% endif %}
+{% endfor %}
+
+<div class="px-3 lg:grid lg:grid-cols-2 min-h-[calc(100vh-90px)]">
+  <div class="hidden lg:block lg:space-y-4">
+    {% if product.media != blank %}
+      {% for media in product.media %}
+        {% case media.media_type %}
+          {% when 'image' %}
+            <div class="aspect-square w-full">
+              {{ media | image_url: width: 2048 | image_tag: class: 'object-cover w-full' }}
+            </div>
+          {% when 'video' %}
+            <div class="aspect-square w-full">
+              {{ media | video_tag: autoplay: true, loop: true, class: 'object-cover w-full' }}
+            </div>
+        {% endcase %}
+      {% endfor %}
+    {% else %}
+      {{ 'image' | placeholder_svg_tag: 'placeholder object-cover w-full h-full aspect-square' }}
+    {% endif %}
+  </div>
+  <div class="lg:hidden">
+    <div class="product-carousel pb-5 mb-8">
+      {% if product.media != blank %}
+        {% for media in product.media %}
+          {% case media.media_type %}
+            {% when 'image' %}
+              <div class="slide aspect-square w-full lg:min-h-[calc(100vh-90px)]">
+                {{ media | image_url: width: 2048 | image_tag: class: 'object-cover w-full h-full' }}
+              </div>
+            {% when 'video' %}
+              <div class="slide aspect-square w-full lg:min-h-[calc(100vh-90px)]">
+                {{ media | video_tag: autoplay: true, loop: true, class: 'object-cover w-full h-full' }}
+              </div>
+          {% endcase %}
+        {% endfor %}
+      {% else %}
+        <div class="slide">
+          {{ 'image' | placeholder_svg_tag: 'placeholder object-cover w-full h-full aspect-square' }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="lg:px-16">
+    <div class="pt-10 mx-auto max-w-lg lg:grid lg:content-center lg:pt-16 lg:mx-0 lg:min-h-[calc(80vh-90px)] {% if imageset == 'true' %}lg:sticky lg:top-[90px]{% endif %}">
+      {% form 'product', product, data-productid: product.id, id: 'add-to-cart' %}
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when '@app' %}
+              {% render block %}
+            {% when 'title' %}
+              <h1 class="d2 !leading-none" {{ block.shopify_attributes }}>
+                {{ product.title }}
+              </h1>
+            {% when 'price' %}
+              <p id="price" class="mt-3 h1 text-gold" {{ block.shopify_attributes }}>
+                <span class="product-price mr-0.5">{{ product.selected_or_first_available_variant.price | money }}</span>
+                <s class="product-compare text-gray opacity-70 {% unless product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}hidden{% endunless %}">
+                  {{ product.selected_or_first_available_variant.compare_at_price | money }}
+                </s>
+              </p>
+            {% when 'variant_picker' %}
+              <div class="mt-7" {{ block.shopify_attributes }}>
+                <input type="hidden" name="id" data-productid="{{ product.id }}" id="product-id" value="{{ product.selected_or_first_available_variant.id }}">
+                {% unless product.has_only_default_variant %}
+                  <div class="product-options space-y-5">
+                    {% for option in product.options_with_values %}
+                      <fieldset>
+                        <legend class="h6">{{ option.name }}</legend>
+                        <div class="-mt-0.5 space-y-2.5">
+                          {% for value in option.values %}
+                            <label for="{{ option.name }}-{{ value }}">
+                              <input
+                                type="radio"
+                                id="{{ option.name }}-{{ value }}"
+                                name="{{ option.name }}"
+                                value="{{ value }}"
+                                class="sr-only"
+                                {% if option.selected_value == value %}checked{% endif %}
+                              >
+                              <span class="p5 uppercase">
+                                {{ value }}
+                              </span>
+                            </label>
+                          {% endfor %}
+                        </div>
+                      </fieldset>
+                    {% endfor %}
+                  </div>
+                {% endunless %}
+              </div>
+            {% when 'quantity_selector' %}
+              <div class="mt-6" {{ block.shopify_attributes }}>
+                <label for="Quantity" class="h6">{{ 'products.product.quantity.label_lg' | t }}</label>
+                <div class="flex mt-2">
+                  <div class="quantity quantity--lg">
+                    <button type="button" name="minus" class="quantity__button">
+                      <span class="sr-only">{{ 'products.product.quantity.decrease' | t: product: product.title | escape }}</span>
+                      {% render 'icon-minus' %}
+                    </button>
+                    <label for="Quantity" class="sr-only">{{ 'products.product.quantity.label' | t: product: product.title | escape }}</label>
+                    <input type="number" name="quantity" id="Quantity" value="1" class="quantity__input">    
+                    <button type="button" name="plus" class="quantity__button">
+                      <span class="sr-only">{{ 'products.product.quantity.increase' | t: product: product.title | escape }}</span>
+                      {% render 'icon-plus' %}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            {% when 'zip_code' %}
+              {% if product.available %}
+                <div class="mt-7" {{ block.shopify_attributes }}>
+                  <div class="ZipCodeRestrict zipcode_product_page"></div>
+                </div>
+              {% endif %}
+            {% when 'buy_buttons' %}
+              <div class="mt-8" {{ block.shopify_attributes }}>
+                <button
+                  name="add" id="add" class="btn btn--primary"
+                  onclick="window.addToCart('add-to-cart'); return false;"
+                  {% unless product.available %}disabled{% endunless %}
+                >
+                  {% if product.available %}
+                    {{ 'products.product.add_to_cart' | t }}
+                  {% else %}
+                    {{ 'products.product.sold_out' | t }}
+                  {% endif %}
+                </button>
+              </div>
+
+            {% when 'description' %}
+              {% if product.content != blank %}
+                <div class="rte rte--compact mt-12 max-w-sm" {{ block.shopify_attributes }}>
+                  {{ product.content }}
+                </div>
+              {% endif %}
+          {% endcase %}
+        {% endfor %}
+      {% endform %}
+    </div>
+  </div>
+</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var productPassword = '{{ product_password }}';
+      var storedPassword = localStorage.getItem('product_password_{{ product.id }}');
+      var productContent = document.getElementById('product-content');
+      var passwordForm = document.getElementById('password-protect-form');
+      var errorMessage = document.getElementById('password-error-message');
+      var passwordInput = document.getElementById('password-input');
+      var submitButton = document.getElementById('password-submit');
+
+      function showContent() {
+        passwordForm.style.display = 'none';
+        productContent.style.display = 'block';
+      }
+
+      function showForm() {
+        passwordForm.style.display = 'flex';
+        productContent.style.display = 'none';
+      }
+
+      if (productPassword === '') {
+        // No password protection needed
+        showContent();
+      } else if (storedPassword === productPassword) {
+        // Password already entered and matches
+        showContent();
+      } else {
+        // Show password form
+        showForm();
+      }
+
+      submitButton.addEventListener('click', function() {
+        var enteredPassword = passwordInput.value;
+
+        if (enteredPassword === productPassword) {
+          localStorage.setItem('product_password_{{ product.id }}', enteredPassword);
+          showContent();
+        } else {
+          errorMessage.style.display = 'block';
+        }
+      });
+    });
+  </script>
+
+</div>
+
+<script>
+  const product = {{ product | json }}
+
+  document.querySelectorAll('.product-options input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      
+      // Find selected options
+      let selectedOptions = [];
+
+      document.querySelectorAll('.product-options input[type="radio"]:checked').forEach(radio => {
+        selectedOptions.push(radio.value);
+      });
+
+      // Find matched variant
+      let matchedVariant = product.variants.find(variant => {
+        let pass = true;
+
+        for (let i = 0; i < selectedOptions.length; i++) {
+          if (selectedOptions.indexOf(variant.options[i]) == -1) {
+            pass = false;
+            break;
+          }
+        }
+
+        return pass;
+      }); 
+
+      // Change product form variant id
+      document.querySelector('#product-id').value = matchedVariant.id;
+
+      // Change URL
+      let url = new URLParse(window.location.href, true);
+      url.query.variant = matchedVariant.id;
+      window.history.replaceState(null, null, url.toString());
+
+      // Change prices
+      document.querySelector('.product-price').textContent = Shopify.formatMoney(matchedVariant.price);
+      document.querySelector('.product-compare').textContent = Shopify.formatMoney(matchedVariant.compare_at_price);
+
+      matchedVariant.compare_at_price > matchedVariant.price
+        ? document.querySelector('.product-compare').classList.remove('hidden')
+        : document.querySelector('.product-compare').classList.add('hidden');
+
+      // Change button
+      const add = document.querySelector('#add');
+      
+      if (matchedVariant.available) {
+        add.textContent = 'Add to Cart';
+        add.disabled = false;
+      } else {
+        add.textContent = 'Sold Out';
+        add.disabled = true;
+      }
+    });
+  });
+</script>
+
+{%- liquid
+  if product.selected_or_first_available_variant.featured_media
+    assign seo_media = product.selected_or_first_available_variant.featured_media
+  else
+    assign seo_media = product.featured_media
+  endif
+-%}
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org/",
+    "@type": "Product",
+    "name": {{ product.title | json }},
+    "url": {{ request.origin | append: product.url | json }},
+    {% if seo_media -%}
+      "image": [
+        {{ seo_media | image_url: width: 1920 | prepend: "https:" | json }}
+      ],
+    {%- endif %}
+    "description": {{ product.description | strip_html | json }},
+    {% if product.selected_or_first_available_variant.sku != blank -%}
+      "sku": {{ product.selected_or_first_available_variant.sku | json }},
+    {%- endif %}
+    "brand": {
+      "@type": "Brand",
+      "name": {{ product.vendor | json }}
+    },
+    "offers": [
+      {%- for variant in product.variants -%}
+        {
+          "@type" : "Offer",
+          {%- if variant.sku != blank -%}
+            "sku": {{ variant.sku | json }},
+          {%- endif -%}
+          {%- if variant.barcode.size == 12 -%}
+            "gtin12": {{ variant.barcode }},
+          {%- endif -%}
+          {%- if variant.barcode.size == 13 -%}
+            "gtin13": {{ variant.barcode }},
+          {%- endif -%}
+          {%- if variant.barcode.size == 14 -%}
+            "gtin14": {{ variant.barcode }},
+          {%- endif -%}
+          "availability" : "http://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
+          "price" : {{ variant.price | divided_by: 100.00 | json }},
+          "priceCurrency" : {{ cart.currency.iso_code | json }},
+          "url" : {{ request.origin | append: variant.url | json }}
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  }
+</script>
+
+{% schema %}
+  {
+    "name": "Product information",
+    "tag": "section",
+    "blocks": [
+      {
+        "type": "@app"
+      },
+      {
+        "type": "title",
+        "name": "Title",
+        "limit": 1
+      },
+      {
+        "type": "price",
+        "name": "Price",
+        "limit": 1
+      },
+      {
+        "type": "variant_picker",
+        "name": "Variant picker",
+        "limit": 1
+      },
+      {
+        "type": "quantity_selector",
+        "name": "Quantity selector",
+        "limit": 1
+      },
+      {
+        "type": "zip_code",
+        "name": "Zip code",
+        "limit": 1
+      },
+      {
+        "type": "buy_buttons",
+        "name": "Buy buttons",
+        "limit": 1
+      },
+      {
+        "type": "description",
+        "name": "Description",
+        "limit": 1
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="mx-auto mt-8 max-w-2xl">
+    {{ section.settings.embed_code }}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Mailchimp",
+    "tag": "section",
+    "class": "mailchimp",
+    "settings": [
+      {
+        "type": "html",
+        "id": "embed_code",
+        "label": "Embed code"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Mailchimp"
+      }
+    ],
+    "enabled_on": {
+      "templates": [
+        "page"
+      ]
+    }
+  }
+{% endschema %}

@@ -1,0 +1,86 @@
+<div class="customer account max-w-5xl mx-auto">
+  <div class="mt-6 pb-6 border-b border-silver">
+    <div class="flex flex-wrap items-end">
+      <div class="w-full lg:w-9/12">
+        <h1 class="d4 text-center lg:text-left">
+          {{ 'customer.account.title' | t }}
+        </h1>
+      </div>
+      <div class="w-full my-1 text-center lg:w-3/12 lg:text-right">
+        <a href="{{ routes.account_logout_url }}"class="pa1 link">
+          {{ 'customer.account.sign_out' | t }}
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-wrap">
+    <div class="w-full mt-8 lg:w-9/12 lg:pr-10">
+      {% paginate customer.orders by 20 %}
+        {% if customer.orders.size > 0 %}
+          <table class="p4">
+            <thead>
+              <tr>
+                <th>{{ 'customer.orders.order_number' | t }}</th>
+                <th>{{ 'customer.orders.date' | t }}</th>
+                <th>{{ 'customer.orders.payment_status' | t }}</th>
+                <th>{{ 'customer.orders.fulfillment_status' | t }}</th>
+                <th>{{ 'customer.orders.total' | t }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in customer.orders %}
+                <tr>
+                  <td data-label="Order">{{ order.name | link_to: order.customer_url, class: 'link underline' }}</td>
+                  <td data-label="Date">{{ order.created_at | date: format: 'abbreviated_date' }}</td>
+                  <td data-label="Payment Status">{{ order.financial_status_label }}</td>
+                  <td data-label="Fulfillment Status">{{ order.fulfillment_status_label }}</td>
+                  <td data-label="Total">{{ order.total_price | money }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p>{{ 'customer.orders.none' | t }}</p>
+        {% endif %}
+        {% if paginate.pages > 1 %}
+          <div class="-mt-6">
+            {% render 'pagination', paginate: paginate %}
+          </div>
+        {% endif %}
+      {% endpaginate %}
+    </div>
+    <div class="w-full mt-10 lg:w-3/12 lg:mt-8">
+      <h2 class="h4 text-gold">{{ 'customer.account.default_address' | t }}</h2>
+      {% if customer.default_address %}
+        <div class="mt-4">
+          {{ customer.default_address | format_address }}
+          {% if customer.default_address.phone %}
+            <p>{{ customer.default_address.phone }}</p>
+          {% endif %}
+        </div>
+        <div class="mt-4">
+          <a href="{{ routes.account_addresses_url }}" class="pa1 link">
+            {{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})
+          </a>
+        </div>
+      {% else %}
+        <div class="mt-4">
+          <p>{{ 'customer.addresses.no_addresses' | t }}</p>
+        </div>
+        <div class="mt-4">
+          <a href="{{ routes.account_addresses_url }}" class="pa1 link">
+            {{ 'customer.addresses.add' | t }} ({{ customer.addresses_count }})
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Account",
+    "tag": "section",
+    "class": "container"
+  }
+{% endschema %}

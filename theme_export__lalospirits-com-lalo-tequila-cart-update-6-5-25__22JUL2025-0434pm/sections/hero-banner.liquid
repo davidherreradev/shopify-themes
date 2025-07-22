@@ -1,0 +1,49 @@
+<div class="container">
+  {% if section.settings.image != blank %}
+    <div class="mt-8">
+      {{ section.settings.image | image_url: width: 2560 | image_tag: class: 'object-cover w-full h-full' }}
+    </div>
+  {% endif %}
+  <div class="flex flex-wrap mt-6 lg:mt-12">
+    <div class="w-full lg:w-4/12">
+      <h1 class="d2">
+        {{ section.settings.heading }}
+      </h1>
+    </div>
+    <div class="w-full mt-6 lg:w-8/12 lg:mt-0">
+      <p class="d4 lg:pl-2">
+        {{ section.settings.text }}
+      </p>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Hero banner",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Our Story"
+      },
+      {
+        "type": "textarea",
+        "id": "text",
+        "label": "Text"
+      }
+    ],
+    "enabled_on": {
+      "templates": [
+        "page"
+      ]
+    }
+  }
+{% endschema %}

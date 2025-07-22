@@ -1,0 +1,222 @@
+<div class="container mt-12">
+  <div class="max-w-3xl mx-auto">
+    <form accept-charset="UTF-8" action="https://usebasin.com/f/c46ab9ebef0b" enctype="multipart/form-data" method="POST" id="donations">
+      <input type="hidden" name="_gotcha">
+      <div class="flex flex-wrap">
+        <div class="w-full sm:w-1/2 sm:pr-3">
+          <label for="Name" class="sr-only">{{ 'templates.donation.form.name' | t }}*</label>
+          <input type="text" name="Name" id="Name" placeholder="{{ 'templates.donation.form.name' | t }}*" class="form-input" required>
+        </div>
+        <div class="w-full mt-4 sm:w-1/2 sm:pl-3 sm:mt-0">
+          <label for="Email" class="sr-only">{{ 'templates.donation.form.email' | t }}*</label>
+          <input type="email" name="Email Address" id="Email" placeholder="{{ 'templates.donation.form.email' | t }}*" class="form-input" required>
+        </div>
+      </div>
+      <div class="flex flex-wrap">
+        <div class="w-full mt-4 sm:w-1/2 sm:pr-3">
+          <label for="Organization" class="sr-only">{{ 'templates.donation.form.organization' | t }}*</label>
+          <input type="text" name="Organization" id="Organization" placeholder="{{ 'templates.donation.form.organization' | t }}*" class="form-input" required>
+        </div>
+        <div class="w-full mt-4 sm:w-1/2 sm:pl-3">
+          <label for="Website" class="sr-only">{{ 'templates.donation.form.website' | t }}</label>
+          <input type="url" name="Website" id="Website" placeholder="{{ 'templates.donation.form.website' | t }}" class="form-input">
+        </div>
+      </div>
+      <div class="flex flex-wrap">
+        <div class="w-full mt-4 sm:w-1/2 sm:pr-3">
+          <label for="Event" class="sr-only">{{ 'templates.donation.form.event_name' | t }}*</label>
+          <input type="text" name="Event Name" id="Event" placeholder="{{ 'templates.donation.form.event_name' | t }}*" class="form-input" required>
+        </div>
+        <div class="w-full mt-4 sm:w-1/2 sm:pl-3">
+          <label for="Purpose" class="sr-only">{{ 'templates.donation.form.event_purpose' | t }}*</label>
+          <input type="text" name="Event Purpose" id="Purpose" placeholder="{{ 'templates.donation.form.event_purpose' | t }}*" class="form-input" required>
+        </div>
+      </div>
+      <div class="flex flex-wrap">
+        <div class="w-full mt-4 sm:w-1/2 sm:pr-3">
+          <label for="Date" class="sr-only">{{ 'templates.donation.form.event_date' | t }}*</label>
+          <input
+            type="text" name="Event Date" id="Date" placeholder="{{ 'templates.donation.form.event_date' | t }}*" class="form-input"
+            onfocus="(this.type='date')" onblur="(this.type='text')" required
+          >
+          <p class="p5 !leading-tight mt-3 pr-5">
+            {{ 'templates.donation.form.event_note' | t }}
+          </p>
+        </div>
+        <div class="w-full mt-6 sm:w-1/2 sm:pl-3 sm:mt-4">
+          <label for="Address" class="sr-only">{{ 'templates.donation.form.event_address' | t }}</label>
+          <input type="text" name="Event Address" id="Address" placeholder="{{ 'templates.donation.form.event_address' | t }}*" class="form-input" required>
+        </div>
+      </div>
+      <div class="flex flex-wrap">
+        <div class="w-full mt-4 sm:w-1/2 sm:pr-3 sm:mt-6">
+          <label for="Venue" class="sr-only">{{ 'templates.donation.form.venue' | t }}</label>
+          <input type="text" name="Venue Name" id="Venue" placeholder="{{ 'templates.donation.form.venue' | t }}" class="form-input">
+        </div>
+      </div>
+      <div class="flex flex-wrap">
+        <div class="w-full mt-4 sm:w-1/2 sm:pr-3">
+          <label for="Cost" class="sr-only">{{ 'templates.donation.form.cost' | t }}</label>
+          <input type="text" name="Participation Cost" id="Cost" placeholder="{{ 'templates.donation.form.cost' | t }}" class="form-input">
+        </div>
+        <div class="w-full mt-4 sm:w-1/2 sm:pl-3">
+          <label for="Other" class="sr-only">{{ 'templates.donation.form.other_sponsors' | t }}</label>
+          <input type="text" name="Other Sponsors Involved" id="Other" placeholder="{{ 'templates.donation.form.other_sponsors' | t }}" class="form-input">
+        </div>
+      </div>
+      <div class="flex flex-wrap">
+        <div class="w-full mt-4 sm:w-1/2 sm:pr-3">
+          <label for="Guests" class="sr-only">{{ 'templates.donation.form.number_guests' | t }}</label>
+          <input type="number" name="Number of Guests" id="Guests" placeholder="{{ 'templates.donation.form.number_guests' | t }}" class="form-input">
+        </div>
+        <div class="w-full mt-4 sm:w-1/2 sm:pl-3">
+          <label for="Employees" class="sr-only">{{ 'templates.donation.form.lalo_employees' | t }}</label>
+          <input type="text" name="LALO Employees" id="Employees" placeholder="{{ 'templates.donation.form.lalo_employees' | t }}" class="form-input">
+        </div>
+      </div>
+      <div class="flex flex-wrap">
+        <div class="w-full mt-4 sm:w-1/2 sm:pr-3">
+          <label for="VIP" class="sr-only">{{ 'templates.donation.form.vip_attending' | t }}</label>
+          <input type="text" name="VIP Attending" id="VIP" placeholder="{{ 'templates.donation.form.vip_attending' | t }}" class="form-input">
+        </div>
+        <div class="w-full mt-4 sm:w-1/2 sm:pl-3">
+          <label for="Press" class="sr-only">{{ 'templates.donation.form.press_attending' | t }}</label>
+          <input type="text" name="Press Attending" id="Press" placeholder="{{ 'templates.donation.form.press_attending' | t }}" class="form-input">
+        </div>
+      </div>
+      <div class="flex flex-wrap">
+        <div class="w-full mt-8 sm:w-1/2 sm:pr-3">
+          <p class="form-label">{{ 'templates.donation.form.age_legal' | t }}*</p>
+          <div class="flex border border-blue mt-3 px-3 py-2">
+            <div class="flex items-center mr-3">
+              <input type="radio" id="Legal" name="All Guests Legal" value="Yes" checked required>
+              <label for="Legal" class="p4 ml-1.5 cursor-pointer">{{ 'templates.donation.form.yes' | t }}</label>
+            </div>
+            <div class="flex items-center">
+              <input type="radio" id="Underage" name="All Guests Legal" value="No" required>
+              <label for="Underage" class="p4 ml-1.5 cursor-pointer">No</label>
+            </div>
+          </div>
+          <p class="p5 !leading-tight mt-3 pr-5">
+            {{ 'templates.donation.form.age_note' | t }}
+          </p>
+        </div>
+        <div class="w-full mt-8 sm:w-1/2 sm:pl-3">
+          <p class="form-label">{{ 'templates.donation.form.venue_licensed' | t }}*</p>
+          <div class="flex border border-blue mt-3 px-3 py-2">
+            <div class="flex items-center mr-3">
+              <input type="radio" id="Licensed" name="Licensed Venue" value="Yes" checked required>
+              <label for="Licensed" class="p4 ml-1.5 cursor-pointer">{{ 'templates.donation.form.yes' | t }}</label>
+            </div>
+            <div class="flex items-center">
+              <input type="radio" id="Unlicensed" name="Licensed Venue" value="No" required>
+              <label for="Unlicensed" class="p4 ml-1.5 cursor-pointer">No</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-wrap text-left">
+        <div class="w-full mt-8 sm:w-1/2 sm:pr-3 preferred">
+          <p class="form-label">{{ 'templates.donation.form.preferred_donations' | t }}</p>
+          <div class="mt-3">
+            <div class="flex items-center">
+              <input type="checkbox" id="Auction" name="Auction or Raffle" value="Yes">
+              <label for="Auction" class="p4 ml-2 cursor-pointer">{{ 'templates.donation.form.auction_raffle' | t }}</label>
+            </div>
+            <div class="flex items-center">
+              <input type="checkbox" id="Spirits" name="Spirits to Serve" value="Yes">
+              <label for="Spirits" class="p4 ml-2 cursor-pointer">{{ 'templates.donation.form.spirits_served' | t }}</label>
+            </div>
+          </div>
+        </div>
+        <div class="w-full mt-10 sm:w-1/2 sm:pl-3">
+          <label for="Bottles" class="sr-only">{{ 'templates.donation.form.number_bottles' | t }}</label>
+          <input type="number" name="Number of Bottles" id="Bottles" placeholder="{{ 'templates.donation.form.number_bottles' | t }}" class="form-input">
+        </div>
+      </div>
+      <div class="text-left mt-8">
+        <label for="Status" class="form-label">{{ 'templates.donation.form.charitable' | t }}</label>
+        <div class="mt-3 px-4 pt-2.5 pb-4 border border-blue">
+          <p class="p4">{{ 'templates.donation.form.attach_letter' | t }}</p>
+          <input type="file" id="Status" name="501c3 Status" class="mt-2">
+        </div>
+        <p class="p5 !leading-tight mt-3">PDF, JPG, PNG, or GIF. 100MB max.</p>
+      </div>
+      <div class="text-left mt-8">
+        <label for="Message" class="form-label">{{ 'templates.donation.form.message' | t }}*</label>
+        <textarea name="Message" id="Message" rows="4" placeholder="{{ 'templates.donation.form.message_placeholder' | t }}" class="form-input mt-3" required></textarea>
+      </div>
+      <div class="text-left mt-8">
+        <p class="form-label font-medium">{{ 'templates.donation.form.social_media' | t }}*</p>
+        <div class="flex items-center">
+          <input type="checkbox" id="SocialMedia" name="Social Media Promotion" value="Agree" required>
+          <label for="SocialMedia" class="p4 ml-2 cursor-pointer">{{ 'templates.donation.form.agree' | t }}</label>
+        </div>  
+      </div>
+      <button class="btn btn--primary block mx-auto mt-8">{{ 'templates.donation.form.send' | t }}</button>
+      <div class="relative h4 text-gold text-center mt-6">
+        <div class="sending absolute w-full hidden">{{ 'templates.donation.form.sending' | t }}</div>
+        <div class="success absolute w-full hidden">{{ 'templates.donation.form.success' | t }}</div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  const form = document.querySelector('#donations');
+  const sending = document.querySelector('#donations .sending');
+  const success = document.querySelector('#donations .success');
+
+  function fadeIn(el, display){
+    el.style.opacity = 0;
+    el.style.display = display || 'block';
+
+    (function fade() {
+      var val = parseFloat(el.style.opacity);
+      if (!((val += .1) > 1)) {
+        el.style.opacity = val;
+        requestAnimationFrame(fade);
+      }
+    })();
+  }
+
+  function fadeOut(el){
+    el.style.opacity = 1;
+
+    (function fade() {
+      if ((el.style.opacity -= .1) < 0) {
+        el.style.display = 'none';
+      } else {
+        requestAnimationFrame(fade);
+      }
+    })();
+  }
+
+  form.onsubmit = function(event) {
+    event.preventDefault();
+    var formData = new FormData(form);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', form.action, true);
+    xhr.onprogress = function () {
+      fadeIn(sending);
+    }
+    xhr.onload = function(e) {
+      setTimeout(function() {
+        fadeOut(sending);
+        fadeIn(success);
+      }, 1000)
+      setTimeout(function() {
+        fadeOut(success); 
+        form.reset();
+      }, 2000)
+    };
+    xhr.send(formData);
+  }
+</script>
+
+{% schema %}
+  {
+    "name": "Request form",
+    "tag": "section"
+  }
+{% endschema %}

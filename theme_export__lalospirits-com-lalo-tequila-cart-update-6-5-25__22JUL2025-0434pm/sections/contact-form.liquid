@@ -1,0 +1,124 @@
+<div class="container">
+  <div class="max-w-lg mx-auto mt-12">
+    <form action="https://usebasin.com/f/8fc1902b5abb" method="POST" id="connect">
+      <input type="hidden" name="_gotcha">
+      <div class="space-y-4">
+        <div>
+          <label for="Name" class="sr-only">{{ 'templates.contact.form.name' | t }}</label>
+          <input
+            type="text"
+            name="Name"
+            id="Name"
+            value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+            placeholder="{{ 'templates.contact.form.name' | t }}*"
+            autocomplete="name"
+            class="form-input"
+            required
+          >
+        </div>
+        <div>
+          <label for="Email" class="sr-only">{{ 'templates.contact.form.email' | t }}</label>
+          <input
+            type="email"
+            name="Email"
+            id="Email"
+            value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+            placeholder="{{ 'templates.contact.form.email' | t }}*"
+            autocomplete="email"
+            spellcheck="false"
+            autocapitalize="off"
+            class="form-input"
+            required
+          >    
+        </div>
+        <div>
+          <label for="Phone" class="sr-only">{{ 'templates.contact.form.phone' | t }}</label>
+          <input
+            type="tel"
+            name="Phone"
+            id="Phone"
+            value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+            placeholder="{{ 'templates.contact.form.phone' | t }}"
+            autocomplete="tel" 
+            pattern="[0-9\-]*"
+            class="form-input"
+          >
+        </div>
+        <div>
+          <label for="Message" class="sr-only">{{ 'templates.contact.form.message' | t }}</label>
+          <textarea name="Message" id="Message" placeholder="{{ 'templates.contact.form.message' | t }}*" rows="6" class="form-input" required></textarea>
+        </div>
+      </div>
+      <button class="btn btn--primary block mt-7 mx-auto">
+        {{ 'templates.contact.form.send' | t }}
+      </button>
+      <div class="relative h4 text-gold text-center mt-6">
+        <div class="sending absolute w-full hidden">
+          {{ 'templates.contact.form.sending' | t }}
+        </div>
+        <div class="success absolute w-full hidden">
+          {{ 'templates.contact.form.success' | t }}
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  const form = document.querySelector('#connect');
+  const sending = document.querySelector('#connect .sending');
+  const success = document.querySelector('#connect .success');
+
+  function fadeIn(el, display){
+    el.style.opacity = 0;
+    el.style.display = display || 'block';
+
+    (function fade() {
+      var val = parseFloat(el.style.opacity);
+      if (!((val += .1) > 1)) {
+        el.style.opacity = val;
+        requestAnimationFrame(fade);
+      }
+    })();
+  }
+
+  function fadeOut(el){
+    el.style.opacity = 1;
+
+    (function fade() {
+      if ((el.style.opacity -= .1) < 0) {
+        el.style.display = 'none';
+      } else {
+        requestAnimationFrame(fade);
+      }
+    })();
+  }
+
+  form.onsubmit = function(event) {
+    event.preventDefault();
+    var formData = new FormData(form);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', form.action, true);
+    xhr.onprogress = function () {
+      fadeIn(sending);
+    }
+    xhr.onload = function(e) {
+      setTimeout(function() {
+        fadeOut(sending);
+        fadeIn(success);
+      }, 1000)
+      setTimeout(function() {
+        fadeOut(success); 
+        form.reset();
+      }, 2000)
+    };
+    xhr.send(formData);
+  }
+</script>
+
+{% schema %}
+  {
+    "name": "Contact form",
+    "tag": "section"
+  }
+{% endschema %}

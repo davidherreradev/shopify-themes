@@ -1,0 +1,63 @@
+<style>
+  .template-index img {
+    @media (min-width: 640px) {
+      object-position: left;
+    }
+  }
+</style>
+
+<div class="h-[calc(100vh-100px)]">
+  {% if section.settings.video != blank %}
+    {{ section.settings.video | video_tag: autoplay: true, loop: true, class: 'object-cover w-full h-full' }}
+  {% else %}
+    {% if section.settings.mobile_image != blank %}
+      {{ section.settings.mobile_image | image_url: width: 1280 | image_tag: class: 'object-cover w-full h-full sm:hidden' }}
+      {% if section.settings.image != blank %}
+        {{ section.settings.image | image_url: width: 2560 | image_tag: class: 'object-cover w-full h-full hidden sm:block' }}
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: 'placeholder object-cover w-full h-full' }}
+      {% endif %}
+    {% else %}
+      {% if section.settings.image != blank %}
+        {{ section.settings.image | image_url: width: 2560 | image_tag: class: 'object-cover w-full h-full' }}
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: 'placeholder object-cover w-full h-full' }}
+      {% endif %}
+    {% endif %}
+  {% endif %}
+</div>
+
+{% schema %}
+  {
+    "name": "Media banner",
+    "tag": "section",
+    "class": "media-banner",
+    "settings": [
+      {
+        "type": "video",
+        "id": "video",
+        "label": "Video"
+      },      
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "mobile_image",
+        "label": "Mobile image"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Media banner"
+      }
+    ],
+    "enabled_on": {
+      "templates": [
+        "index"
+      ]
+    }
+  }
+{% endschema %}

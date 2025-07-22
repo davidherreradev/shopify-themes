@@ -1,0 +1,881 @@
+{% schema %}
+{
+  "name": "Button Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Connect with Us"
+    },
+    {
+      "type": "select",
+      "id": "title_style",
+      "label": "Title Style",
+      "options": [
+        {
+          "value": "h2",
+          "label": "Heading 2"
+        },
+        {
+          "value": "h3",
+          "label": "Heading 3"
+        },
+        {
+          "value": "h4",
+          "label": "Heading 4"
+        }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "title_alignment",
+      "label": "Title Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "justify",
+          "label": "Justify"
+        }
+      ],
+      "default": "center"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Button Section",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  @font-face {
+    font-family: 'GT America';
+    src: url('{{ "gt-america.woff2" | asset_url }}') format('woff2'),
+         url('{{ "gt-america.woff" | asset_url }}') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+  .button-section {
+    text-align: {{ section.settings.title_alignment }};
+    padding: 20px;
+    margin-left: 150px;
+    margin-right: 150px;
+  }
+  .button-section .button-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  .button-section .button {
+    width: 180px;
+    height: 80px;
+    margin: 10px;
+    border-radius: 0; /* Make buttons square */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: 'GTAmericaExp-Medium';
+    font-size: 14px;
+    font-weight: 200;
+    background-color: white; /* White background */
+    color: #00178C; /* LALO blue text */
+    border: 2px solid #B8860B; /* Gold border */
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+  .button-section .button:hover,
+  .button-section .button:focus {
+    background-color: #B8860B; /* Gold background on hover */
+    color: white; /* White text on hover */
+    outline: none; /* Remove default focus outline */
+  }
+  .button-section .button:focus {
+    outline: 3px solid #B8860B; /* Custom focus outline */
+  }
+  .button-section .button a {
+    text-decoration: none;
+    color: inherit; /* Inherit text color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+  }
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow: auto;
+  }
+  .close-modal {
+    color: black;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'GTAmericaExp-Medium';
+  }
+  .form-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .form-container > div {
+    width: 48%;
+  }
+  .form-container > div.full-width {
+    width: 100%;
+  }
+  .form-container textarea {
+    width: 100%;
+  }
+  .info-message {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+    font-family: 'GTAmerica-Regular';
+  }
+  .form-input::placeholder {
+    text-transform: capitalize;
+  }
+
+  /* Responsive styles for mobile */
+  @media (max-width: 600px) {
+    .button-section {
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+    .button-section .button-container {
+      flex-direction: column;
+      align-items: center;
+    }
+    .button-section .button {
+      width: 100%;
+      max-width: 300px;
+      height: 60px;
+    }
+  }
+</style>
+
+<div class="button-section">
+  <{{ section.settings.title_style }} style="text-align: {{ section.settings.title_alignment }};">{{ section.settings.title }}</{{ section.settings.title_style }}>
+  <div class="button-container">
+    <div class="button primary-button" data-modal="modal-updates" tabindex="0" aria-label="Join Our Newsletter">
+      Join Our Newsletter
+    </div>
+    <div class="button primary-button" data-modal="modal-events" tabindex="0" aria-label="Event Sponsorship">
+      Event Sponsorship
+    </div>
+    <div class="button primary-button" data-modal="modal-business" tabindex="0" aria-label="Wholesale Inquiries">
+      Wholesale Inquiries
+    </div>
+    <div class="button primary-button" data-modal="modal-customer-service" tabindex="0" aria-label="Customer Service">
+      Customer Service
+    </div>
+  </div>
+</div>
+
+<div id="modal-updates" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeModal('modal-updates')" tabindex="0" aria-label="Close modal">&times;</span>
+    <h2 style="font-family: 'GTAmerica-Regular';">Join Our Newsletter</h2>
+    <div class="container">
+      <div class="max-w-lg mx-auto mt-12">
+        <form action="https://usebasin.com/f/ad97630b05b0" method="POST" id="connect-updates">
+          <input type="hidden" name="_gotcha">
+          <input type="hidden" name="Contact Form" value="CF - Newsletter">
+          <div class="form-container">
+            <div>
+              <label for="FirstName" class="sr-only">First name</label>
+              <input
+                type="text"
+                name="FirstName"
+                id="FirstName"
+                placeholder="First name*"
+                class="form-input"
+                required
+              >
+            </div>
+            <div>
+              <label for="LastName" class="sr-only">Last name</label>
+              <input
+                type="text"
+                name="LastName"
+                id="LastName"
+                placeholder="Last name*"
+                class="form-input"
+                required
+              >
+            </div>
+            <div>
+              <label for="Email" class="sr-only">Email</label>
+              <input
+                type="email"
+                name="Email"
+                id="Email"
+                placeholder="Email*"
+                class="form-input"
+                required
+              >    
+            </div>
+            <div>
+              <label for="Phone" class="sr-only">Phone number</label>
+              <input
+                type="tel"
+                name="Phone"
+                id="Phone"
+                placeholder="Phone number"
+                class="form-input"
+              >
+            </div>
+            <div style="display: flex; gap: 10px; width: 100%;">
+              <div style="flex: 1;">
+                <label for="City" class="sr-only">City</label>
+                <input
+                  type="text"
+                  name="City"
+                  id="City"
+                  placeholder="City"
+                  class="form-input"
+                >
+              </div>
+              <div style="flex: 1;">
+                <label for="State" class="sr-only">State</label>
+                <select name="State" id="State" class="form-input">
+                  <option value="">State</option>
+                  <option value="AL">Alabama</option>
+                  <option value="AK">Alaska</option>
+                  <option value="AZ">Arizona</option>
+                  <option value="AR">Arkansas</option>
+                  <option value="CA">California</option>
+                  <option value="CO">Colorado</option>
+                  <option value="CT">Connecticut</option>
+                  <option value="DE">Delaware</option>
+                  <option value="DC">District Of Columbia</option>
+                  <option value="FL">Florida</option>
+                  <option value="GA">Georgia</option>
+                  <option value="HI">Hawaii
+
+</option>
+                  <option value="ID">Idaho</option>
+                  <option value="IL">Illinois</option>
+                  <option value="IN">Indiana</option>
+                  <option value="IA">Iowa</option>
+                  <option value="KS">Kansas</option>
+                  <option value="KY">Kentucky</option>
+                  <option value="LA">Louisiana</option>
+                  <option value="ME">Maine</option>
+                  <option value="MD">Maryland</option>
+                  <option value="MA">Massachusetts</option>
+                  <option value="MI">Michigan</option>
+                  <option value="MN">Minnesota</option>
+                  <option value="MS">Mississippi</option>
+                  <option value="MO">Missouri</option>
+                  <option value="MT">Montana</option>
+                  <option value="NE">Nebraska</option>
+                  <option value="NV">Nevada</option>
+                  <option value="NH">New Hampshire</option>
+                  <option value="NJ">New Jersey</option>
+                  <option value="NM">New Mexico</option>
+                  <option value="NY">New York</option>
+                  <option value="NC">North Carolina</option>
+                  <option value="ND">North Dakota</option>
+                  <option value="OH">Ohio</option>
+                  <option value="OK">Oklahoma</option>
+                  <option value="OR">Oregon</option>
+                  <option value="PA">Pennsylvania</option>
+                  <option value="RI">Rhode Island</option>
+                  <option value="SC">South Carolina</option>
+                  <option value="SD">South Dakota</option>
+                  <option value="TN">Tennessee</option>
+                  <option value="TX">Texas</option>
+                  <option value="UT">Utah</option>
+                  <option value="VT">Vermont</option>
+                  <option value="VA">Virginia</option>
+                  <option value="WA">Washington</option>
+                  <option value="WV">West Virginia</option>
+                  <option value="WI">Wisconsin</option>
+                  <option value="WY">Wyoming</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn--primary block mt-7 mx-auto primary-button">
+            Send
+          </button>
+          <div class="relative h4 text-gold text-center mt-6">
+            <div class="sending absolute w-full hidden">
+              Sending...
+            </div>
+            <div class="success absolute w-full hidden">
+              Thank you!
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modal-events" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeModal('modal-events')" tabindex="0" aria-label="Close modal">&times;</span>
+    <h2 style="font-family: 'GTAmerica-Regular';">Event Sponsorship</h2>
+    <p class="info-message">Please fill out the form below and a LALO team member will get back to you.</p>
+    <div class="container">
+      <div class="max-w-lg mx-auto mt-12">
+        <form action="https://usebasin.com/f/4c30ffecec12" method="POST" id="connect-events">
+          <input type="hidden" name="_gotcha">
+          <input type="hidden" name="Contact Form" value="CF - Event">
+          <div class="form-container">
+            <div>
+              <label for="FirstName" class="sr-only">First name</label>
+              <input
+                type="text"
+                name="FirstName"
+                id="FirstName"
+                placeholder="First name*"
+                class="form-input"
+                required
+              >
+            </div>
+            <div>
+              <label for="LastName" class="sr-only">Last name</label>
+              <input
+                type="text"
+                name="LastName"
+                id="LastName"
+                placeholder="Last name*"
+                class="form-input"
+                required
+              >
+            </div>
+            <div>
+              <label for="Email" class="sr-only">Email</label>
+              <input
+                type="email"
+                name="Email"
+                id="Email"
+                placeholder="Email*"
+                class="form-input"
+                required
+              >    
+            </div>
+            <div>
+              <label for="Phone" class="sr-only">Phone number</label>
+              <input
+                type="tel"
+                name="Phone"
+                id="Phone"
+                placeholder="Phone number"
+                class="form-input"
+              >
+            </div>
+            <div class="full-width">
+              <label for="EventDate" class="sr-only">Event date</label>
+              <input
+                type="date"
+                name="EventDate"
+                id="EventDate"
+                placeholder="Event date*"
+                class="form-input"
+                required
+              >
+            </div>
+            <div>
+              <label for="EventName" class="sr-only">Event name</label>
+              <input
+                type="text"
+                name="EventName"
+                id="EventName"
+                placeholder="Event name*"
+                class="form-input"
+                required
+              >
+            </div>
+            <div>
+              <label for="EventLocation" class="sr-only">Event location</label>
+              <input
+                type="text"
+                name="EventLocation"
+                id="EventLocation"
+                placeholder="Event location*"
+                class="form-input"
+                required
+              >
+            </div>
+            <div class="full-width">
+              <label for="EventDescription" class="sr-only">Please describe your event</label>
+              <textarea name="EventDescription" id="EventDescription" placeholder="Please describe your event" rows="6" class="form-input"></textarea>
+            </div>
+          </div>
+          <button class="btn btn--primary block mt-7 mx-auto primary-button">
+            Send
+          </button>
+          <div class="relative h4 text-gold text-center mt-6">
+            <div class="sending absolute w-full hidden">
+              Sending...
+            </div>
+            <div class="success absolute w-full hidden">
+              Thank you!
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modal-business" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeModal('modal-business')" tabindex="0" aria-label="Close modal">&times;</span>
+    <h2 style="font-family: 'GTAmerica-Regular';">Wholesale Inquiries</h2>
+    <p class="info-message">Please fill out the form below and a LALO team member will get back to you.</p>
+    <div class="container">
+      <div class="max-w-lg mx-auto mt-12">
+        <form action="https://usebasin.com/f/cbd87fa18f6a" method="POST" id="connect-business">
+          <input type="hidden" name="_gotcha">
+          <input type="hidden" name="Contact Form" value="CF - Distributor">
+          <div class="form-container">
+            <div class="full-width">
+              <p>Please note that we are currently only available in the United States and are not available internationally.</p>
+            </div>
+            <div>
+              <label for="FirstName" class="sr-only">First name</label>
+              <input
+                type="text"
+                name="FirstName"
+                id="FirstName"
+                placeholder="First name*"
+                class="form-input"
+                required
+              >
+            </div>
+            <div>
+              <label for="LastName" class="sr-only">Last name</label>
+              <input
+                type="text"
+                name="LastName"
+                id="LastName"
+                placeholder="Last name*"
+                class="form-input"
+                required
+              >
+            </div>
+            <div>
+              <label for="Email" class="sr-only">Email</label>
+              <input
+                type="email"
+                name="Email"
+                id="Email"
+                placeholder="Email*"
+                class="form-input"
+                required
+              >    
+            </div>
+            <div>
+              <label for="Phone" class="sr-only">Phone number</label>
+              <input
+                type="tel"
+                name="Phone"
+                id="Phone"
+                placeholder="Phone number*"
+                class="form-input"
+                required
+              >
+            </div>
+            <div style="display: flex; gap: 10px; width: 100%;">
+              <div style="flex: 1;">
+                <label for="City" class="sr-only">City</label>
+                <input
+                  type="text"
+                  name="City"
+                  id="City"
+                  placeholder="City*"
+                  class="form-input"
+                  required
+                >
+              </div>
+              <div style="flex: 1;">
+                <label for="State" class="sr-only">State</label>
+                <select name="State" id="State" class="form-input" required>
+                  <option value="">State</option>
+                  <option value="AL">Alabama</option>
+                  <option value="AK">Alaska</option>
+                  <option value="AZ">Arizona</option>
+                  <option value="AR">Arkansas</option>
+                  <option value="CA">California</option>
+                  <option value="CO">Colorado</option>
+
+
+                  <option value="CT">Connecticut</option>
+                  <option value="DE">Delaware</option>
+                  <option value="DC">District Of Columbia</option>
+                  <option value="FL">Florida</option>
+                  <option value="GA">Georgia</option>
+                  <option value="HI">Hawaii</option>
+                  <option value="ID">Idaho</option>
+                  <option value="IL">Illinois</option>
+                  <option value="IN">Indiana</option>
+                  <option value="IA">Iowa</option>
+                  <option value="KS">Kansas</option>
+                  <option value="KY">Kentucky</option>
+                  <option value="LA">Louisiana</option>
+                  <option value="ME">Maine</option>
+                  <option value="MD">Maryland</option>
+                  <option value="MA">Massachusetts</option>
+                  <option value="MI">Michigan</option>
+                  <option value="MN">Minnesota</option>
+                  <option value="MS">Mississippi</option>
+                  <option value="MO">Missouri</option>
+                  <option value="MT">Montana</option>
+                  <option value="NE">Nebraska</option>
+                  <option value="NV">Nevada</option>
+                  <option value="NH">New Hampshire</option>
+                  <option value="NJ">New Jersey</option>
+                  <option value="NM">New Mexico</option>
+                  <option value="NY">New York</option>
+                  <option value="NC">North Carolina</option>
+                  <option value="ND">North Dakota</option>
+                  <option value="OH">Ohio</option>
+                  <option value="OK">Oklahoma</option>
+                  <option value="OR">Oregon</option>
+                  <option value="PA">Pennsylvania</option>
+                  <option value="RI">Rhode Island</option>
+                  <option value="SC">South Carolina</option>
+                  <option value="SD">South Dakota</option>
+                  <option value="TN">Tennessee</option>
+                  <option value="TX">Texas</option>
+                  <option value="UT">Utah</option>
+                  <option value="VT">Vermont</option>
+                  <option value="VA">Virginia</option>
+                  <option value="WA">Washington</option>
+                  <option value="WV">West Virginia</option>
+                  <option value="WI">Wisconsin</option>
+                  <option value="WY">Wyoming</option>
+                </select>
+              </div>
+            </div>
+            <div class="full-width">
+              <label for="BusinessName" class="sr-only">Name of business</label>
+              <input
+                type="text"
+                name="BusinessName"
+                id="BusinessName"
+                placeholder="Name of business*"
+                class="form-input"
+                required
+              >
+            </div>
+            <div class="full-width">
+              <label for="BusinessType" class="sr-only">Type of business</label>
+              <select name="BusinessType" id="BusinessType" class="form-input" required>
+                <option value="">Type of business</option>
+                <option value="Bar or restaurant">Bar or restaurant</option>
+                <option value="Liquor store">Liquor store</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn--primary block mt-7 mx-auto primary-button">
+            Send
+          </button>
+          <div class="relative h4 text-gold text-center mt-6">
+            <div class="sending absolute w-full hidden">
+              Sending...
+            </div>
+            <div class="success absolute w-full hidden">
+              Thank you!
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modal-customer-service" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeModal('modal-customer-service')" tabindex="0" aria-label="Close modal">&times;</span>
+    <h2 style="font-family: 'GTAmerica-Regular';">Customer Service</h2>
+    <p class="info-message">Please fill out the form below and a LALO team member will get back to you.</p>
+    <div class="container">
+      <div class="max-w-lg mx-auto mt-12">
+        <form action="https://usebasin.com/f/02e356e7dfa4" method="POST" id="connect-customer-service">
+          <input type="hidden" name="_gotcha">
+          <input type="hidden" name="Contact Form" value="CF - CX">
+          <div class="form-container">
+            <div>
+              <label for="FirstName" class="sr-only">First name</label>
+              <input
+                type="text"
+                name="FirstName"
+                id="FirstName"
+                placeholder="First name*"
+                class="form-input"
+                required
+              >
+            </div>
+            <div>
+              <label for="LastName" class="sr-only">Last name</label>
+              <input
+                type="text"
+                name="LastName"
+                id="LastName"
+                placeholder="Last name*"
+                class="form-input"
+                required
+              >
+            </div>
+            <div>
+              <label for="Email" class="sr-only">Email</label>
+              <input
+                type="email"
+                name="Email"
+                id="Email"
+                placeholder="Email*"
+                class="form-input"
+                required
+              >    
+            </div>
+            <div>
+              <label for="Phone" class="sr-only">Phone number</label>
+              <input
+                type="tel"
+                name="Phone"
+                id="Phone"
+                placeholder="Phone number"
+                class="form-input"
+              >
+            </div>
+            <div style="display: flex; gap: 10px; width: 100%;">
+              <div style="flex: 1;">
+                <label for="City" class="sr-only">City</label>
+                <input
+                  type="text"
+                  name="City"
+                  id="City"
+                  placeholder="City"
+                  class="form-input"
+                >
+              </div>
+              <div style="flex: 1;">
+                <label for="State" class="sr-only">State</label>
+                <select name="State" id="State" class="form-input">
+                  <option value="">State</option>
+                  <option value="AL">Alabama</option>
+                  <option value="AK">Alaska</option>
+                  <option value="AZ">Arizona</option>
+                  <option value="AR">Arkansas</option>
+                  <option value="CA">California</option>
+                  <option value="CO">Colorado</option>
+                  <option value="CT">Connecticut</option>
+                  <option value="DE">Delaware</option>
+                  <option value="DC">District Of Columbia</option>
+                  <option value="FL">Florida</option>
+                  <option value="GA">Georgia</option>
+                  <option value="HI">Hawaii</option>
+                  <option value="ID">Idaho</option>
+                  <option value="IL">Illinois</option>
+                  <option value="IN">Indiana</option>
+                  <option value="IA">Iowa</option>
+                  <option value="KS">Kansas</option>
+                  <option value="KY">Kentucky</option>
+                  <option value="LA">Louisiana</option>
+                  <option value="ME">Maine</option>
+                  <option value="MD">Maryland</option>
+                  <option value="MA">Massachusetts</option>
+                  <option value="MI">Michigan</option>
+                  <option value="MN">Minnesota</option>
+                  <option value="MS">Mississippi</option>
+                  <option value="MO">Missouri</option>
+                  <option value="MT">Montana</option>
+                  <option value="NE">Nebraska</option>
+                  <option value="NV">Nevada</option>
+                  <option value="NH">New Hampshire</option>
+                  <option value="NJ">New Jersey</option>
+                  <option value="NM">New Mexico</option>
+                  <option value="NY">New York</option>
+                  <option value="NC">North Carolina</option>
+                  <option value="ND">North Dakota</option>
+                  <option value="OH">Ohio</option>
+                  <option value="OK">Oklahoma</option>
+                  <option value="OR">Oregon</option>
+                  <option value="PA">Pennsylvania</option>
+                  <option value="RI">Rhode Island</option>
+                  <option value="SC">South Carolina</option>
+                  <option value="SD">South Dakota</option>
+                  <option value="TN">Tennessee</option>
+                  <option value="TX">Texas</option>
+                  <option value="UT">Utah</option>
+                  <option value="VT">Vermont</option>
+                  <option value="VA">Virginia</option>
+                  <option value="WA">Washington</option>
+                  <option value="WV">West Virginia</option>
+                  <option value="WI">Wisconsin</option>
+                  <option value="WY">Wyoming</option>
+                </select>
+              </div>
+            </div>
+            <div class="full-width">
+              <label for="OrderNumber" class="sr-only">Order number</label>
+              <input
+                type="text"
+                name="OrderNumber"
+                id
+
+="OrderNumber"
+                placeholder="Order number"
+                class="form-input"
+              >
+            </div>
+            <div class="full-width">
+              <label for="IssueType" class="sr-only">Issue type</label>
+              <select name="IssueType" id="IssueType" class="form-input">
+                <option value="">Issue type</option>
+                <option value="LALO bottle order">LALO bottle order</option>
+                <option value="LALO merch order">LALO merch order</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="full-width">
+              <label for="IssueDescription" class="sr-only">Please describe your issue</label>
+              <textarea name="IssueDescription" id="IssueDescription" placeholder="Please describe your issue" rows="6" class="form-input"></textarea>
+            </div>
+          </div>
+          <button class="btn btn--primary block mt-7 mx-auto primary-button">
+            Send
+          </button>
+          <div class="relative h4 text-gold text-center mt-6">
+            <div class="sending absolute w-full hidden">
+              Sending...
+            </div>
+            <div class="success absolute w-full hidden">
+              Thank you!
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openModal(modalId) {
+    var modal = document.getElementById(modalId);
+    if (modal) {
+      modal.style.display = 'flex';
+    }
+  }
+
+  function closeModal(modalId) {
+    var modal = document.getElementById(modalId);
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.button').forEach(function(button) {
+      button.addEventListener('click', function() {
+        const modalId = button.getAttribute('data-modal');
+        openModal(modalId);
+        document.querySelector(`#${modalId} input[name="Contact Form"]`).value = button.innerText;
+      });
+    });
+
+    window.onclick = function(event) {
+      var modals = document.querySelectorAll('.modal');
+      modals.forEach(function(modal) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      });
+    };
+
+    const forms = document.querySelectorAll('form[id^="connect"]');
+    forms.forEach(function(form) {
+      const sending = form.querySelector('.sending');
+      const success = form.querySelector('.success');
+
+      form.onsubmit = function(event) {
+        event.preventDefault();
+        var formData = new FormData(form);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', form.action, true);
+        xhr.onprogress = function () {
+          fadeIn(sending);
+        }
+        xhr.onload = function(e) {
+          setTimeout(function() {
+            fadeOut(sending);
+            fadeIn(success);
+          }, 1000)
+          setTimeout(function() {
+            fadeOut(success); 
+            form.reset();
+          }, 2000)
+        };
+        xhr.send(formData);
+      }
+    });
+  });
+
+  function fadeIn(el, display){
+    el.style.opacity = 0;
+    el.style.display = display || 'block';
+
+    (function fade() {
+      var val = parseFloat(el.style.opacity);
+      if (!((val += .1) > 1)) {
+        el.style.opacity = val;
+        requestAnimationFrame(fade);
+      }
+    })();
+  }
+
+  function fadeOut(el){
+    el.style.opacity = 1;
+
+    (function fade() {
+      if ((el.style.opacity -= .1) < 0) {
+        el.style.display = 'none';
+      } else {
+        requestAnimationFrame(fade);
+      }
+    })();
+  }
+</script>

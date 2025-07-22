@@ -1,0 +1,61 @@
+<div class="carousel mx-auto mt-12 w-11/12 sm:w-10/12 lg:w-3/4 lg:mb-12 xl:w-2/3">
+  {% for block in section.blocks %}
+    <div class="flex flex-wrap w-full mr-1">
+      <div class="w-full md:w-1/2">
+        {{ block.settings.image | image_url: width: 1280 | image_tag: preload: true, class: 'object-cover w-full h-full' }}
+      </div>
+      <div class="text w-full pt-10 pb-14 md:w-1/2 md:py-6 md:pl-10">
+        <div class="h3 text-gold">
+          0{{ forloop.index }}
+        </div>
+        <h3 class="d3 mt-0.5">
+          {{ block.settings.title }}
+        </h3>
+        <p class="p3 mt-6">
+          {{ block.settings.text }}
+        </p>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% schema %}
+  {
+    "name": "Carousel",
+    "tag": "section",
+    "max_blocks": 6,
+    "blocks": [
+      {
+        "name": "Slide",
+        "type": "slide",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "textarea",
+            "id": "text",
+            "label": "Text"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Carousel"
+      }
+    ],
+    "enabled_on": {
+      "templates": [
+        "index"
+      ]
+    }
+  }
+{% endschema %}

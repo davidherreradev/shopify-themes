@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="mx-auto mt-8">
+    {% if article.image %}
+      <div class="mb-12">
+        {{ article.image | image_url: width: 1400 | image_tag: class: 'object-contain w-full h-full max-h-[640px]' }}
+      </div>
+    {% endif %}
+    <div class="mx-auto max-w-2xl">
+      <h1 class="d4 text-center">{{ article.title }}</h1>
+      {% if article.excerpt != blank %}
+        <div class="rte rte--excerpt max-w-screen-sm mx-auto mt-12">
+          {{ article.excerpt }}
+        </div>
+      {% endif %}
+      {% if article.content != blank %}
+        <div class="rte mt-14">
+          {{ article.content }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "articleBody": {{ article.content | strip_html | json }},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": {{ request.origin | append: page.url | json }}
+    },
+    "headline": {{ article.title | json }},
+    {% if article.excerpt != blank %}
+      "description": {{ article.excerpt | strip_html | json }},
+    {% endif %}
+    {% if article.image %}
+      "image": [
+        {{ article | image_url: width: 1920 | prepend: "https:" | json }}
+      ],
+    {% endif %}
+    "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
+    "dateCreated": {{ article.created_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
+    "author": {
+      "@type": "Person",
+      "name": {{ article.author | json }}
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": {{ shop.name | json }}
+    }
+  }
+</script>
+
+{% schema %}
+  {
+    "name": "Article",
+    "tag": "article"
+  }
+{% endschema %}

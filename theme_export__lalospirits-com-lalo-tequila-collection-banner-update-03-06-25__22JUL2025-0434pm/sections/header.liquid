@@ -1,0 +1,158 @@
+<div class="main-menu text-[15px] uppercase tracking-[0.04rem] px-5 xl:px-7">
+  <nav class="grid grid-cols-[65px_1fr_130px_1fr_65px] items-center h-[90px]">
+    <div class="hidden lg:block">
+      {% render 'localization' %}
+    </div>
+    <button type="button" class="menu-open link w-[34px] lg:hidden" aria-label="Open Menu">
+      {% render 'icon-hamburger' %}
+    </button>
+    <div class="flex justify-center">
+      {% if section.settings.menu_left != blank %}
+        <ul role="list" class="hidden lg:flex space-x-[3.5vw] px-7 lg:text-sm xl:text-base">
+          {% for link in section.settings.menu_left.links %}
+            <li class="{% if link.levels == 1 %}has-dropdown{% endif %}">
+              <a href="{{ link.url }}" class="menu-item link flex items-center" {% if link.current %}aria-current="page"{% endif %}>
+                {{ link.title }}
+                {% if link.links.size > 0 %}
+                  <span class="inline-block w-3 ml-1.5">
+                    {% render 'icon-chevron-down' %}
+                  </span>
+                {% endif %}
+              </a>
+              {% if link.links.size > 0 %}
+                <div class="dropdown-child" tabindex="-1">
+                  <ul role="list" class="dropdown-links">
+                    {% for childlink in link.links %}
+                      <li>
+                        <a href="{{ childlink.url }}" class="link block" {% if childlink.current %}aria-current="page"{% endif %}>
+                          {{ childlink.title }}
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+    <a href="{{ routes.root_url }}" class="link" aria-label="{{ shop.name }}">
+      {% render 'lalo-tequila' %}
+    </a>
+    <div class="flex justify-center text-base">
+      {% if section.settings.menu_right != blank %}
+        <ul role="list" class="hidden lg:flex space-x-[3.5vw] px-7 lg:text-sm xl:text-base">
+          {% for link in section.settings.menu_right.links %}
+            <li class="{% if link.levels == 1 %}has-dropdown{% endif %}">
+              <a href="{{ link.url }}" class="menu-item link flex items-center" {% if link.current %}aria-current="page"{% endif %}>
+                {{ link.title }}
+                {% if link.links.size > 0 %}
+                  <span class="inline-block w-3 ml-1.5">
+                    {% render 'icon-chevron-down' %}
+                  </span>
+                {% endif %}
+              </a>
+              {% if link.links.size > 0 %}
+                <div class="dropdown-child" tabindex="-1">
+                  <ul role="list" class="dropdown-links">
+                    {% for childlink in link.links %}
+                      <li>
+                        <a href="{{ childlink.url }}" class="link block" {% if childlink.current %}aria-current="page"{% endif %}>
+                          {{ childlink.title }}
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+    <div class="flex space-x-5">
+      {% if shop.customer_accounts_enabled %}
+        <a
+          href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"
+          class="link block w-4" aria-label="Account">
+          {% render 'icon-account' %}
+        </a>
+      {% endif %}
+      {% if template == 'cart' %}
+        <a href="{{ routes.cart_url }}" class="link relative block w-4" aria-label="Cart">
+          {% render 'icon-cart' %}
+          {% if cart.item_count > 0 %}
+            <span class="absolute -bottom-[3px] -right-[3px] block w-2 h-2 bg-gold rounded-full"></span>
+          {% endif %}
+        </a>
+      {% else %}
+        <button type="button" class="cart-open link relative block w-4" aria-label="Cart" onclick="window.cartOpen(); return false;">
+          {% render 'icon-cart' %}
+          <span class="absolute -bottom-[3px] -right-[3px] w-2 h-2 bg-gold rounded-full hidden"></span>
+        </button>
+      {% endif %}
+    </div>
+  </nav>
+</div>
+
+{% render 'menu-drawer' %}
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Organization",
+    "name": {{ shop.name | json }},
+    {% if settings.logo %}
+      "logo": {{ settings.logo | image_url: width: 500 | prepend: "https:" | json }},
+    {% endif %}
+    "sameAs": [
+      {{ settings.social_facebook_link | json }},
+      {{ settings.social_instagram_link | json }},
+      {{ settings.social_twitter_link | json }},
+      {{ settings.social_youtube_link | json }},
+      {{ settings.social_pinterest_link | json }}
+    ],
+    "url": {{ request.origin | append: page.url | json }}
+  }
+</script>
+
+{%- if request.page_type == 'index' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name": {{ shop.name | json }},
+      "url": {{ request.origin | append: page.url | json }}
+    }
+  </script>
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Header",
+    "tag": "header",
+    "class": "header fixed top-0 z-10 w-full bg-white",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Menus"
+      },
+      {
+        "type": "link_list",
+        "id": "menu_left",
+        "label": "Menu left"
+      },
+      {
+        "type": "link_list",
+        "id": "menu_right",
+        "label": "Menu right"
+      },
+      {
+        "type": "link_list",
+        "id": "menu_social",
+        "label": "Menu social"
+      }
+    ]
+  }
+{% endschema %}

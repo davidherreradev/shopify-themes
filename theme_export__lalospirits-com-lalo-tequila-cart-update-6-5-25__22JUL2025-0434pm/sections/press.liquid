@@ -1,0 +1,91 @@
+<div class="container">
+  <div class="grid-layout text-center">
+    {% for block in section.blocks %}
+      {% if block.settings.link != blank %}
+        <a href="{{ block.settings.link }}" class="card block" target="_blank" rel="noreferrer noopener">
+      {% else %}
+        <div>
+      {% endif %}
+        <div class="card__image relative aspect-square">
+          <div class="absolute inset-0">
+            {% if block.settings.image %}
+              {{ block.settings.image | image_url: width: 1280 | image_tag: class: 'object-cover w-full h-full' }}
+            {% else %}
+              {{ 'image' | placeholder_svg_tag: 'placeholder object-cover w-full h-full' }}
+            {% endif %}
+          </div>
+          {% if block.settings.image_hover %}
+            <div class="card__image-hover absolute inset-0">
+              {{ block.settings.image_hover | image_url: width: 1280 | image_tag: class: 'object-cover w-full h-full' }}
+            </div>
+          {% endif %}
+          <div class="card__out absolute top-[6px] right-[6px] p-2 bg-gold">
+            <span class="block w-3 text-white">
+              {% render 'icon-arrow-out' %}
+            </span>
+          </div>
+        </div>
+        {% if block.settings.blurb != blank %}
+          <h3 class="h3 mt-5 px-2">
+            {{ block.settings.blurb }}
+          </h3>
+        {% endif %}
+      {% if block.settings.link != blank %}
+        </a>
+      {% else%}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Press",
+    "tag": "section",
+    "blocks": [
+      {
+        "name": "Press",
+        "type": "press",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_hover",
+            "label": "Image hover"
+          },  
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Publication",
+            "default": "Press"
+          },
+          {
+            "type": "text",
+            "id": "blurb",
+            "label": "Article"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Link"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Press"
+      }
+    ],
+    "enabled_on": {
+      "templates": [
+        "page"
+      ]
+    }
+  }
+{% endschema %}

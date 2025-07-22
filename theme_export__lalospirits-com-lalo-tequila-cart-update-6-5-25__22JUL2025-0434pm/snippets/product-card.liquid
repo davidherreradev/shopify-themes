@@ -1,0 +1,31 @@
+<a href="{{ product.url }}" class="card block text-center">
+  <div class="card__image relative aspect-square">
+    {% if product.featured_image %}
+      {{ product.featured_image | image_url: width: 1280 | image_tag: class: 'object-cover w-full h-full' }}
+    {% else %}
+      {{ 'image' | placeholder_svg_tag: 'placeholder object-cover w-full h-full' }}
+    {% endif %}
+    {% if product.compare_at_price or product.available == false %}
+      <p class="card__tag absolute top-[6px] left-[6px] px-2.5 pt-1 pb-1.5 bg-gold">
+        <span class="text-xs text-white uppercase">
+          {% if product.available == false %}
+            {{ 'products.product.sold_out' | t }}
+          {% elsif product.compare_at_price %}
+            {{ 'products.product.on_sale' | t }}
+          {% endif %}
+        </span>
+      </p>
+    {% endif %}
+  </div>
+  <h3 class="h3 mt-5 px-2">
+    {{ product.title }}
+  </h3>
+  {% comment %} <div class="mt-0.5">
+    {{ product.price | money }}
+    {% if product.compare_at_price %}
+      <s class="card__compare ml-0.5">
+        {{ product.compare_at_price | money }}
+      </s>
+    {% endif %}
+  </div> {% endcomment %}
+</a>

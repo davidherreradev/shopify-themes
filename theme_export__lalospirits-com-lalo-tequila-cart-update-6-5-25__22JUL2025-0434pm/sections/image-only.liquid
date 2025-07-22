@@ -1,0 +1,89 @@
+<div class="container mt-14 lg:mt-24">
+  <div class="flex {% if section.settings.alignment == 'center' %}justify-center{% endif %}
+            {% if section.settings.alignment == 'right' %}justify-end{% endif %}">
+    {% if section.settings.image != blank %}
+      <img 
+        src="{{ section.settings.image | image_url: width: section.settings.image_width | image_url: height: section.settings.image_height }}" 
+        alt="{{ section.settings.alt_text | default: 'Image' }}" 
+        width="{{ section.settings.image_width }}" 
+        height="{{ section.settings.image_height }}" 
+        class="object-cover w-full h-auto {% if section.settings.custom_class != blank %}{{ section.settings.custom_class }}{% endif %}"
+        {% if section.settings.custom_id != blank %}id="{{ section.settings.custom_id }}"{% endif %}
+      />
+    {% else %}
+      <svg class="placeholder object-cover w-full h-auto" 
+           width="{{ section.settings.image_width }}" 
+           height="{{ section.settings.image_height }}" 
+           {% if section.settings.custom_class != blank %}class="{{ section.settings.custom_class }}"{% endif %}
+           {% if section.settings.custom_id != blank %}id="{{ section.settings.custom_id }}"{% endif %}>
+      </svg>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Image",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "custom_id",
+      "label": "Custom ID"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom Class"
+    },
+    {
+      "type": "number",
+      "id": "image_width",
+      "label": "Image Width",
+      "default": 800
+    },
+    {
+      "type": "number",
+      "id": "image_height",
+      "label": "Image Height",
+      "default": 600
+    },
+    {
+      "type": "text",
+      "id": "alt_text",
+      "label": "Alt Text",
+      "default": "Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image"
+    }
+  ]
+}
+{% endschema %}

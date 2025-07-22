@@ -1,0 +1,39 @@
+{% if paginate.parts.size > 0 %}
+  <nav class="pagination mt-14" aria-label="Pagination">
+    <ul role="list" class="tabular-nums">
+      {% if paginate.previous %}
+        <li class="inline-block">
+          <a href="{{ paginate.previous.url }}" aria-label="Previous page">
+            <span class="w-[6px]">
+              {% render 'icon-chevron-left' %}
+            </span>
+          </a>
+        </li>
+      {% endif %}
+      {% for part in paginate.parts %}
+        <li class="inline-block">
+          {% if part.is_link %}
+            <a href="{{ part.url }}" aria-label="Page {{ part.title }}">{{ part.title }}</a>
+          {% else %}
+            {% if part.title == paginate.current_page %}
+              <a role="link" aria-disabled="true" aria-current="page" aria-label="Page {{ part.title }}" class="active">
+                {{ part.title }}
+              </a>
+            {% else %}
+              <span class="active">{{ part.title }}</span>
+            {% endif %}
+          {% endif %}
+        </li>
+      {% endfor %}
+      {% if paginate.next %}
+        <li class="inline-block">
+          <a href="{{ paginate.next.url }}" aria-label="Next page">
+            <span class="w-[6px]">
+              {% render 'icon-chevron-right' %}
+            </span>
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}

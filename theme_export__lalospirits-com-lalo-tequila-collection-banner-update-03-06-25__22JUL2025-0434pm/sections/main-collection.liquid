@@ -1,0 +1,51 @@
+<style>
+  .collection-banner {
+      width: 100%;
+      height: 260px;
+      background: #000;
+  }
+  .collection-banner img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+{% if collection.image %}
+  <div class="collection-banner">
+    <img src="{{ collection.image | image_url: width: 2048, height:  2048}}" alt="{{ collection.image.alt }}" width="2048" height="2048">
+  </div>
+{% else %}
+  <div class="mx-auto mt-6 max-w-2xl">
+    <h1 class="d2 text-center">{{ collection.title }}</h1>
+    {% if collection.description != blank %}
+      <div class="rte pt-12">
+        {{ collection.description }}
+      </div>
+    {% endif %}
+  </div>
+{% endif %}
+
+<div class="container">
+  {% if collection.products.size > 0 %}
+    {% paginate collection.products by 12 %}
+      <div class="grid-layout">
+        {% for product in collection.products %}
+          {% render 'product-card', product: product %}
+        {% endfor %}
+      </div>
+      {% if paginate.pages > 1 %}
+        {% render 'pagination', paginate: paginate %}
+      {% endif %}
+    {% endpaginate %}
+  {% else %}
+    <p>Sorry, there are no products in this collection.</p>
+  {% endif %}
+</div>
+
+{% schema %}
+  {
+    "name": "Product grid",
+    "tag": "section"
+  }
+{% endschema %}

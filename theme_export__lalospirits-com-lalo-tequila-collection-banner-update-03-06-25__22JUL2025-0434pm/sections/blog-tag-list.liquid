@@ -1,0 +1,26 @@
+<aside>
+  {%- if section.settings.blog_tags_list -%}
+    <p>hi</p>
+    <ul>
+      <li>
+        {%- for tag in blog.all_tags -%}
+          <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>{% unless forloop.last %}, {% endunless %}
+        {%- endfor -%}
+      </li>
+    </ul>
+  {%- endif -%}
+</aside>
+
+{% schema %}
+{
+  "name": "Blog Tags List",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "blog_tags_list",
+      "label": "Show tags",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

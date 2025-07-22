@@ -1,0 +1,186 @@
+<div class="container pt-16 pb-12">
+  <div class="flex flex-wrap-reverse">
+    <div class="w-full mt-24 lg:w-7/12 lg:mt-0 h4 !text-[13px] !text-white">
+      <nav class="flex">
+        <div class="w-1/2">
+          {% if section.settings.menu_left != blank %}
+            <ul role="list" class="grid gap-y-[10px]">
+              {% for link in section.settings.menu_left.links %}
+                <li>
+                  <a href="{{ link.url }}" class="link">
+                    {{ link.title }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+        <div class="w-1/2">
+          {% if section.settings.menu_right != blank %}
+            <ul role="list" class="grid gap-y-[10px]">
+              {% for link in section.settings.menu_right.links %}
+                <li>
+                  <a href="{{ link.url }}" class="link">
+                    {{ link.title }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+      </nav>
+      <ul role="list" class="menu-social flex flex-wrap mt-12 gap-y-[10px]">
+        {% if settings.social_nav_facebook != blank %}
+          <li class="w-1/2">
+            <a href="{{ settings.social_nav_facebook }}" class="link flex items-center max-w-fit">
+              <span class="inline-block mr-2 w-[15px] text-gold">
+                {% render 'icon-facebook' %}
+              </span>
+              Facebook
+            </a>
+          </li>
+        {% endif %}
+        {% if settings.social_nav_instagram != blank %}
+          <li class="w-1/2">
+            <a href="{{ settings.social_nav_instagram }}" class="link flex items-center max-w-fit">
+              <span class="inline-block mr-2 w-[17px] text-gold">
+                {% render 'icon-instagram' %}
+              </span>
+              Instagram
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+    <div class="w-full lg:w-5/12">
+      {% if section.settings.newsletter_enable %}
+        {% if section.settings.newsletter_heading != blank %}
+          <h2 class="d5 !text-white !leading-[38px] max-w-md">
+            {{ section.settings.newsletter_heading }}
+          </h2>
+        {% endif %}
+        {% form 'customer', id: 'NewsletterFooter' %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          {% if form.posted_successfully? %}
+            <p class="mt-8 text-gold">{{ 'newsletter.success' | t }}</p>
+          {% elsif form.errors %}
+            <div class="mt-9 text-gold">
+              {{ form.errors | default_errors }}
+            </div>
+          {% endif %}
+          <div class="flex mt-8 border-b hover:border-gold focus-within:border-gold media-hover:transition-colors duration-300 ease-linear">
+            <label for="NewsletterForm--{{ section.id }}" class="sr-only">Email</label>
+            <input
+              type="email"
+              name="contact[email]"
+              id="NewsletterForm--{{ section.id }}"
+              value="{{ form.email }}"
+              autocorrect="off"
+              autocapitalize="off"
+              autocomplete="email"
+              placeholder="{{ 'newsletter.label' | t }}"
+              class="grow py-2 focus:outline-none"
+            >
+            <button class="flex items-center py-2 h5 link">
+              {{ 'newsletter.button_label' | t }}
+              <span class="inline-block ml-2 w-[17px] text-gold">
+                {% render 'icon-arrow-right' %}
+              </span>
+            </button>
+          </div>
+        {% endform %}
+      {% endif %}
+    </div>
+  </div>
+  <div class="flex flex-wrap">
+    <div class="flex items-end w-full pa1 mt-24 md:items-center lg:w-7/12">
+      <div class="w-1/2">
+        <a
+          href="https://goo.gl/maps/yswL7mBWbrFVGyod8" target="_blank" rel="noreferrer"
+          class="inline-block md:flex md:items-center link max-w-fit" aria-label="Map of Mexico">
+          <span class="block w-10 mr-3.5 mb-3 text-gold md:mb-0">{% render 'icon-mexico' %}</span> 20˚33'00"N / 102˚30'29"W
+        </a>
+      </div>
+      <div class="w-1/2">
+        {% comment %} <a
+          href="https://www.instagram.com/explore/tags/sipmodernmexico" target="_blank" rel="noreferrer"
+          class="link" aria-label="Instagram hashtag sipmodernmexico">
+          #sipmodernmexico
+        </a> {% endcomment %}
+        <a href="{{ routes.root_url }}" class="link">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</a>
+      </div>
+    </div>
+    <div class="flex items-end lg:items-center w-full mt-24 pa2 lg:w-5/12 lg:text-right">
+      {% if section.settings.menu_policies != blank %}
+        <ul role="list" class="flex flex-wrap gap-x-8 gap-y-3 w-1/2 lg:w-3/4">
+          {% for link in section.settings.menu_policies.links %}
+            <li class="w-full md:w-auto">
+              <a href="{{ link.url }}" class="link">
+                {{ link.title }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      {% comment %} <div class="w-1/2 lg:w-1/4">
+        <a href="{{ routes.root_url }}" class="link">&copy; {{ shop.name }}</a>
+      </div> {% endcomment %}
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.menu-social a').forEach((link) => {
+    if (link.hostname !== window.location.hostname) {
+      link.target = '_blank';
+      link.relList.add('noreferrer');
+    }
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Footer",
+    "tag": "footer",
+    "class": "footer bg-blue text-white border-t border-white",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Newsletter",
+        "info": "Subscribers added automatically to your “accepted marketing” [customer list](https://lalospirits.myshopify.com/admin/customers?query=&accepts_marketing=1)."
+      },
+      {
+        "type": "checkbox",
+        "id": "newsletter_enable",
+        "label": "Show newsletter",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "newsletter_heading",
+        "label": "Heading",
+        "default": "Newsletter"
+      },
+      {
+        "type": "header",
+        "content": "Menus",
+        "info": "Displays only top-level menu items."
+      },
+      {
+        "type": "link_list",
+        "id": "menu_left",
+        "label": "Menu left"
+      },
+      {
+        "type": "link_list",
+        "id": "menu_right",
+        "label": "Menu right"
+      },
+      {
+        "type": "link_list",
+        "id": "menu_policies",
+        "label": "Policies"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,135 @@
+<div class="customer login">
+  <div class="mx-auto max-w-[350px]" data-login-form>
+    <h1 class="d2 mt-6 text-center">{{ 'customer.login_page.title' | t }}</h1>
+    <div class="mt-10 max-w-xs mx-auto hidden" data-reset-success>
+      <p class="text-center">{{ 'customer.recover_password.success' | t }}</p>
+    </div>
+    {% form 'customer_login' %}
+      {% if form.errors %}
+        <div class="mt-10 text-cognac">
+          {{ form.errors | default_errors }}
+        </div>
+      {% endif %}
+      <div class="mt-12">
+        <label for="CustomerEmail" class="sr-only">
+          {{ 'customer.login_page.email' | t }}
+        </label>
+        <input
+          type="email"
+          name="customer[email]"
+          id="CustomerEmail"
+          autocomplete="email"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          placeholder="{{ 'customer.login_page.email' | t }}"
+          class="form-input"
+        >
+      </div>
+      {% if form.password_needed %}
+        <div class="mt-3.5">
+          <label for="CustomerPassword" class="sr-only">
+            {{ 'customer.login_page.password' | t }}
+          </label>
+          <input
+            type="password"
+            name="customer[password]"
+            id="CustomerPassword"
+            autocomplete="current-password"
+            placeholder="{{ 'customer.login_page.password' | t }}"
+            class="form-input"
+          >
+        </div>
+        <div class="mt-2">
+          <a href="#recover" class="pa2 link" data-recover-toggle>
+            {{ 'customer.login_page.forgot_password' | t }}
+          </a>
+        </div>
+      {% endif %}
+      <button class="btn btn--primary block mx-auto mt-7">
+        {{ 'customer.login_page.sign_in' | t }}
+      </button>
+      <div class="mt-2.5 text-center">
+        <a href="{{ routes.account_register_url }}" class="pa2 link">
+          {{ 'customer.login_page.create_account' | t }}
+        </a>
+      </div>
+    {% endform %}
+  </div>
+  <div class="hidden" data-recover-form>
+    <h1 class="d2 mt-6 text-center">{{ 'customer.recover_password.title' | t }}</h1>
+    <p class="mt-10 mx-auto max-w-xs text-center">{{ 'customer.recover_password.subtext' | t }}</p>
+    {% form 'recover_customer_password', class: 'mx-auto max-w-[350px]' %}
+      {% assign recover_success = form.posted_successfully? %}
+      {% if form.errors %}
+        <div class="mt-8 text-cognac">
+          {{ form.errors | default_errors }}
+        </div>
+      {% endif %}
+      <div class="mt-10">
+        <label for="RecoverEmail" class="sr-only">
+          {{ 'customer.login_page.email' | t }}
+        </label>
+        <input
+          type="email"
+          name="email"
+          id="RecoverEmail"
+          autocorrect="off"
+          autocapitalize="off"
+          autocomplete="email"
+          spellcheck="false"
+          placeholder="{{ 'customer.login_page.email' | t }}"
+          class="form-input"
+          required
+        >
+      </div>
+      <button class="btn btn--primary block mx-auto mt-12">
+        {{ 'customer.login_page.submit' | t }}
+      </button>
+      <div class="mt-2.5 text-center">
+        <a href="#login" class="pa2 link" data-recover-toggle>
+          {{ 'customer.login_page.cancel' | t }}
+        </a>
+      </div>
+    {% endform %}
+  </div>
+  {% if shop.checkout.guest_login %}
+    <div class="mt-12 mx-auto max-w-[350px]">
+      <h2 class="d4 text-center">{{ 'customer.login_page.guest_title' | t }}</h2>
+      {% form 'guest_login' %}
+        <button class="btn btn--primary block mx-auto mt-6">
+          {{ 'customer.login_page.guest_continue' | t }}
+        </button>
+      {% endform %}
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  function toggleRecoverForm() {
+    document.querySelector('[data-login-form]').classList.toggle('hidden');
+    document.querySelector('[data-recover-form]').classList.toggle('hidden');
+  }
+
+  document.querySelectorAll('[data-recover-toggle]').forEach(button => {
+    button.onclick = () => {
+      toggleRecoverForm();
+    }
+  });
+
+  {% if recover_success == true %}
+    document.querySelector('[data-reset-success]').classList.remove('hidden');    
+  {% endif %}
+
+  if (window.location.hash === '#recover') {
+    toggleRecoverForm();
+  }
+</script>
+
+{% schema %}
+  {
+    "name": "Login",
+    "tag": "section",
+    "class": "container"
+  }
+{% endschema %}

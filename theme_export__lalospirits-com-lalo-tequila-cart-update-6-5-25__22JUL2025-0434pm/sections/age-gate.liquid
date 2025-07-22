@@ -1,0 +1,58 @@
+<div class="age-gate grid grid-rows-[90px_1fr] active">
+  <div class="flex items-center h-[90px]">
+    <div class="mx-auto w-[130px] text-white">
+      {% render 'lalo-tequila' %}
+    </div>
+  </div>
+  <div class="container grid place-content-center justify-center w-full pb-32 text-white">
+    {% if section.settings.text != blank %}
+      <h1 class="d4 !text-[38px] !leading-tight mb-8">Are you of legal drinking age?</h1>
+    {% endif %}
+    <div class="w-full">
+      <button type="button" class="legal btn btn--primary text-white">Yes</button>
+      <a href="https://en.wikipedia.org/wiki/Alcohol_laws_of_Texas" class="btn btn--primary text-white">No</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const body = document.querySelector('body');
+  const ageGate = document.querySelector('.age-gate');
+  const legal = document.querySelector('.legal');
+
+  const fadeGate = (el) => {
+    el.style.opacity = 1;
+    (function fade() {
+      if ((el.style.opacity -= 0.05) < 0) {
+        el.style.display = 'none';
+      } else {
+        requestAnimationFrame(fade);
+      }
+    })();
+  };
+
+  if (localStorage.getItem('age-consent') === 'yes') {
+    body.style.overflow = '';
+    ageGate.style.display = 'none';
+  } else {
+    body.style.overflow = 'hidden';
+    legal.addEventListener('click', () => {
+      localStorage.setItem('age-consent', 'yes');
+      body.style.overflow = '';
+      fadeGate(ageGate);
+    });
+  }
+</script>
+
+{% schema %}
+  {
+    "name": "Age gate",
+    "settings": [
+      {
+        "type": "text",
+        "id": "text",
+        "label": "Text"
+      }
+    ]
+  }
+{% endschema %}

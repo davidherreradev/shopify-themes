@@ -1,0 +1,76 @@
+{% layout none %}
+
+<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    {% if settings.favicon != blank %}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {% endif %}
+    <title>Here's your {{ gift_card.initial_value | money_without_trailing_zeros: gift_card.currency }} gift card for {{ shop.name }}!</title>
+    <meta name="description" content="Your gift card">
+    {{ content_for_header }}
+    {% render 'fonts' %}
+    {{ 'theme.min.css' | asset_url | stylesheet_tag }}
+  </head>
+  <body class="template-{{ template.name }} font-body text-blue antialiased">
+    <main id="MainContent" class="main-content">
+      <div class="container text-center">
+        <div class="mx-auto max-w-2xl">
+          <img
+            src="https://cdn.shopify.com/s/files/1/0587/0069/3556/files/LALO-Gift-Card.svg?v=1690549858" alt="Gift card"
+            loading="lazy" width="335" height="215"
+            class="mx-auto mt-20"
+          >
+          <h1 class="h2 text-gold mt-14">Your Gift Card</h1>
+          <h2 class="p2 mt-1">{{ gift_card.initial_value | money_without_trailing_zeros: gift_card.currency }}</h2>
+          <div class="block max-w-fit mx-auto mt-10" onclick="selectText('GiftCardCode');">
+            <div id="GiftCardCode" class="px-5 py-3 border border-gray border-dashed p3 text-blue">
+              {{ gift_card.code | format_code }}
+            </div>
+            <button type="button" class="pa2 link mt-3">Copy Code</button>
+          </div>
+          <div class="mt-10">
+            <a href="{{ routes.root_url }}" class="btn btn--primary block max-w-[210px] mx-auto" target="_blank">Shop Now</a>
+            <button type="button" onclick="window.print();" class="pa1 link mt-3">Print</button>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      function selectText(element) {
+        var doc = document;
+        var text = doc.getElementById(element);
+        if (doc.body.createTextRange) { // ms
+          var range = doc.body.createTextRange();
+          range.moveToElementText(text);
+          range.select();
+        } else if (window.getSelection) { // moz, opera, webkit
+          var selection = window.getSelection();
+          var range = doc.createRange();
+          range.selectNodeContents(text);
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }
+      }
+      
+      function copyDivToClipboard() {
+        var range = document.createRange();
+        range.selectNode(document.getElementById('GiftCardCode'));
+        window.getSelection().removeAllRanges(); // clear current selection
+        window.getSelection().addRange(range); // to select text
+        document.execCommand("copy");
+        window.getSelection().removeAllRanges();// to deselect
+        
+      }
+
+      document.querySelector('#GiftCardCode').onclick = () => {
+        copyDivToClipboard();
+      }
+    </script>
+  </body>
+</html>

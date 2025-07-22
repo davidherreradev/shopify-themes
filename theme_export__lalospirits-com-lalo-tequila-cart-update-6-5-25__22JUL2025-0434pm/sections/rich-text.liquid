@@ -1,0 +1,46 @@
+<div class="container mt-20 pb-2">
+  <div class="max-w-4xl mx-auto">
+    {% if section.settings.heading != blank %}
+      <h2 class="d4 text-center">
+        {{ section.settings.heading }}
+      </h2>
+    {% endif %}
+    {% if section.settings.text != blank %}
+      <div class="rte rte--richtext text-center mt-6 lg:px-20">
+        {{ section.settings.text }}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Rich text",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "default": "Heading",
+        "label": "Heading"
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "default": "<p>Text</p>",
+        "label": "Text"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Rich text"
+      }
+    ],
+    "enabled_on": {
+      "templates": [
+        "index",
+        "page"
+      ]
+    }
+  }
+{% endschema %}

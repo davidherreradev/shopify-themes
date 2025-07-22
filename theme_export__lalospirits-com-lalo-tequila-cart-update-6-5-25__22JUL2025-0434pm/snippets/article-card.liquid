@@ -1,0 +1,12 @@
+<a href="{{ article.url }}" class="card block text-center">
+  <div class="card__image relative aspect-square">
+    {% if article.image %}
+      {{ article.image | image_url: width: 1280 | image_tag: class: 'object-cover w-full h-full' }}
+    {% else %}
+      {{ 'image' | placeholder_svg_tag: 'placeholder object-cover w-full h-full' }}
+    {% endif %}
+  </div>
+  <h3 class="h3 mt-5 px-2">
+    {{ article.title }}
+  </h3>
+</a>

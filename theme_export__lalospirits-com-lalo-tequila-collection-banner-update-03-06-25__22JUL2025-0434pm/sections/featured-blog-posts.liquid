@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="mt-8">
+    <h2 class="d1 text-center">{{ section.settings.title | default: "Featured Blog Posts" }}</h2>
+  </div>
+  <div class="grid-layout mt-12 sm:mt-12">
+      {% for block in section.blocks %}
+        {% assign article = block.settings.selected_article %}
+        {% if article %}
+          {% capture article_data %}{{ article }}{% endcapture %}
+          {% assign article = articles[article_data] %}
+          {% if article %}
+            {% render 'article-card', article: article %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Featured Blog Posts",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Featured Blog Posts"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Blog Posts",
+      "category": "Custom"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "article",
+      "name": "Blog Post",
+      "settings": [
+        {
+          "type": "article",
+          "id": "selected_article",
+          "label": "Select Blog Post"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6
+}
+{% endschema %}

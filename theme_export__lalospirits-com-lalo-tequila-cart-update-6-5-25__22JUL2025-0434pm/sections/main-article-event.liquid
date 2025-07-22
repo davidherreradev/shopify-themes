@@ -1,0 +1,94 @@
+<div class="container">
+  <div class="mx-auto mt-8">
+    {% if article.image %}
+      <div class="mb-12">
+        {{ article.image | image_url: width: 1400 | image_tag: class: 'object-contain w-full h-full max-h-[640px]' }}
+      </div>
+    {% endif %}
+    <div class="max-w-screen-sm mx-auto">
+      <h1 class="d4 text-center">{{ article.title }}</h1>
+    </div>
+    {% if article.excerpt != blank %}
+      <div class="rte rte--excerpt max-w-screen-sm mx-auto mt-12">
+        {{ article.excerpt }}
+      </div>
+    {% endif %}
+    {% if article.content != blank %}
+      <div class="rte mt-14">
+        {{ article.content }}
+      </div>
+    {% endif %}
+  </div>
+  <div class="grid gap-5 mt-14 sm:grid-cols-2 lg:grid-cols-3">
+    {% assign gallery_images = article.metafields.theme.gallery.value %}
+    {% paginate gallery_images by 500 %}
+      {% for image in gallery_images %}
+        {%- capture image_alt -%}
+          Gallery Image {{ forloop.index -}}
+        {% endcapture %}
+        <div class="card">
+          <button type="button" class="event-photo card__image block aspect-square" data-selector=".slide-{{ forloop.index }}">
+            {{ image | image_url: width: 870 | image_tag: class: 'object-cover w-full h-full', alt: image_alt }}
+          </button>
+        </div>
+      {% endfor %}
+    {% endpaginate %}
+  </div>
+  <div class="gallery-overlay">
+    <div class="gallery-container">
+      <div class="gallery-carousel">
+        {% for image in article.metafields.theme.gallery.value %}
+          {%- capture image_alt -%}
+            Gallery Image {{ forloop.index -}}
+          {% endcapture %}
+          <div class="slide slide-{{ forloop.index }} flex items-center justify-center">
+            {{ image | image_url: width: 1280 | image_tag: class: 'object-contain h-full', alt: image_alt }}
+          </div>
+        {% endfor %}
+      </div>
+      <button class="close-gallery">
+        <span class="block w-6">
+          {% render 'icon-close' %}
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "articleBody": {{ article.content | strip_html | json }},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": {{ request.origin | append: page.url | json }}
+    },
+    "headline": {{ article.title | json }},
+    {% if article.excerpt != blank %}
+      "description": {{ article.excerpt | strip_html | json }},
+    {% endif %}
+    {% if article.image %}
+      "image": [
+        {{ article | image_url: width: 1920 | prepend: "https:" | json }}
+      ],
+    {% endif %}
+    "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
+    "dateCreated": {{ article.created_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
+    "author": {
+      "@type": "Person",
+      "name": {{ article.author | json }}
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": {{ shop.name | json }}
+    }
+  }
+</script>
+
+{% schema %}
+  {
+    "name": "Event",
+    "tag": "article"
+  }
+{% endschema %}

@@ -1,0 +1,111 @@
+<style>
+  #tagList a.link.link--reverse {
+    color: var(--color-blue);
+    border: 1px solid transparent;
+    font-family: var(--font-expanded);
+    font-size: .75rem;
+    letter-spacing: .09375rem;
+    padding: 13px 42px 14px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: border-color var(--transition), color var(--transition);
+  }
+  #tagList a.link.link--reverse.active, #tagList a.link.link--reverse:hover  {
+    color: var(--color-blue);
+    border-color: var(--color-gold);
+  }
+  /* Initial state for the posts (hidden and slightly moved down) */
+  .grid-layout .card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  
+  /* Visible state for the posts */
+  .grid-layout .card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+<div class="container">
+  <div class="mt-8">
+    <h1 class="d1 text-center">{{ blog.title }}</h1>
+    {% if blog.tags.size > 0 %}
+      <div class="pt-10 pb-2.5">
+        <div class="hidden sm:block">
+          <ul id="tagList" role="list" class="h4 flex flex-wrap gap-x-10 gap-y-2.5 justify-center text-center text-gold">
+            <li>
+              <a href="{{ blog.url }}" class="link link--reverse {% unless current_tags %}active{% endunless %}">All</a>
+            </li>
+            {% for tag in blog.all_tags %}
+              <li>
+                <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="link link--reverse {% if current_tags contains tag %}active{% endif %}">
+                  {{ tag }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="pt-2 sm:hidden">
+          <select id="BlogFilter" class="form-select h4 !border-gold">
+            <option value="{{ blog.url }}" {% unless current_tags %}selected{% endunless %}>All</option>
+            {% for tag in blog.all_tags %}
+              <option value="{{ blog.url }}/tagged/{{ tag | handle }}" {% if current_tags contains tag %}selected{% endif %}>
+                {{ tag }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+    {% endif %}
+
+  </div>
+  {% if blog.articles.size > 0 %}
+    {% paginate blog.articles by 12 %}
+      <div class="grid-layout mt-12 sm:mt-12">
+        {% for article in blog.articles %}
+          {% render 'article-card', article: article %}
+        {% endfor %}
+      </div>
+      {% if paginate.pages > 1 %}
+        {% render 'pagination', paginate: paginate %}
+      {% endif %}
+    {% endpaginate %}
+  {% else %}
+    <p class="mt-12 text-center">Sorry, there are no posts in this blog.</p>
+  {% endif %}
+</div>
+
+<script>
+  // Function to add 'visible' class to posts with a staggered delay
+  function animatePosts() {
+    const posts = document.querySelectorAll('.grid-layout .card');
+    posts.forEach((post, index) => {
+      setTimeout(() => {
+        post.classList.add('visible');
+      }, index * 100); // Adjust the stagger delay as needed (100ms here)
+    });
+  }
+
+  // Run the animation on initial page load
+  document.addEventListener('DOMContentLoaded', animatePosts);
+
+  // Re-run the animation when filtering
+  document.querySelector('#BlogFilter')?.addEventListener('change', function() {
+    const gridLayout = document.querySelector('.grid-layout');
+    gridLayout.classList.remove('fade-in'); // Reset the animation
+    
+    // Add a small delay to make sure the DOM has updated
+    setTimeout(() => {
+      window.location = this.value;
+      animatePosts(); // Re-run animation on new posts after filtering
+    }, 300);
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Blog posts",
+    "tag": "section"
+  }
+{% endschema %}

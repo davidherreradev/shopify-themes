@@ -1,0 +1,83 @@
+<div class="customer register max-w-[350px] mx-auto">
+  <h1 class="d2 mt-6 text-center">
+    {{ 'customer.register.title' | t }}
+  </h1>
+  {% form 'create_customer' %}
+    {% if form.errors %}
+      <div class="mt-10 text-cognac">
+        {{ form.errors | default_errors }}
+      </div>
+    {% endif %}
+    <div class="mt-12 space-y-3.5">
+      <div>
+        <label for="FirstName" class="sr-only">
+          {{ 'customer.register.first_name' | t }}
+        </label>
+        <input
+          type="text"
+          name="customer[first_name]"
+          id="FirstName"
+          autocomplete="given-name"
+          placeholder="{{ 'customer.register.first_name' | t }}",
+          class="form-input"
+        >
+      </div>
+      <div>
+        <label for="FirstName" class="sr-only">
+          {{ 'customer.register.last_name' | t }}
+        </label>
+        <input
+          type="text"
+          name="customer[last_name]"
+          id="LastName"
+          autocomplete="family-name"
+          placeholder="{{ 'customer.register.last_name' | t }}"
+          class="form-input"
+        >
+      </div>
+      <div>
+        <label for="Email" class="sr-only">
+          {{ 'customer.register.email' | t }}
+        </label>
+        <input
+          type="email"
+          name="customer[email]"
+          id="Email"
+          spellcheck="false"
+          autocapitalize="off"
+          autocomplete="email"
+          placeholder="{{ 'customer.register.email' | t }}"
+          class="form-input"
+        >
+      </div>
+      <div>
+        <label for="Email" class="sr-only">
+          {{ 'customer.register.password' | t }}
+        </label>
+        <input
+          type="password"
+          name="customer[password]"
+          id="Password"
+          placeholder="{{ 'customer.register.password' | t }}"
+          class="form-input"
+        >
+      </div>
+    </div>
+    <button class="btn btn--primary block mx-auto mt-10">
+      {{ 'customer.register.submit' | t }}
+    </button>
+    <div class="mt-2.5 text-center">
+      <a href="{{ routes.account_login_url }}" class="pa2 link">
+        {{ 'customer.register.registered' | t }}
+      </a>
+    </div>
+  {% endform %}
+</div>
+
+{% schema %}
+  {
+    "name": "Register",
+    "tag": "section",
+    "class": "container"
+  }
+{% endschema %}

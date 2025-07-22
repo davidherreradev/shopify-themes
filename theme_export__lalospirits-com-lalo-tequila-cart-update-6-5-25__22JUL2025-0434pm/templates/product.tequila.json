@@ -1,0 +1,156 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title_PNyYFm": {
+          "type": "title",
+          "settings": {}
+        },
+        "price_WiLrPP": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker_3TXaCp": {
+          "type": "variant_picker",
+          "settings": {}
+        },
+        "quantity_selector_bQwJkB": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "recharge_subscriptions_subscription_widget_zHJRb8": {
+          "type": "shopify://apps/recharge-subscriptions/blocks/subscription-widget/371eed76-0b44-4869-9813-730372ea378e",
+          "settings": {
+            "product": "{{product}}"
+          }
+        },
+        "buy_buttons_jdaf9k": {
+          "type": "buy_buttons",
+          "settings": {}
+        },
+        "description_Najik3": {
+          "type": "description",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "title_PNyYFm",
+        "price_WiLrPP",
+        "variant_picker_3TXaCp",
+        "quantity_selector_bQwJkB",
+        "recharge_subscriptions_subscription_widget_zHJRb8",
+        "buy_buttons_jdaf9k",
+        "description_Najik3"
+      ],
+      "settings": {}
+    },
+    "e3c05d80-e9bd-4496-bf1a-9c1779771b70": {
+      "type": "ingredients",
+      "blocks": {
+        "b3c2961d-4c5a-4f5b-89a2-425fee18e378": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/fully-mature-agave.svg"
+          }
+        },
+        "6b0de13d-dddb-4984-a3f5-7ca7d172b0a7": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/champagne-yeast.svg"
+          }
+        },
+        "b1dfe66f-9ff2-46a4-a500-acc06cd9fd90": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/deep-well-water.svg"
+          }
+        }
+      },
+      "block_order": [
+        "b3c2961d-4c5a-4f5b-89a2-425fee18e378",
+        "6b0de13d-dddb-4984-a3f5-7ca7d172b0a7",
+        "b1dfe66f-9ff2-46a4-a500-acc06cd9fd90"
+      ],
+      "settings": {
+        "title": "Only 3 Ingredients.",
+        "subtitle": ""
+      }
+    },
+    "faq_iYHaFJ": {
+      "type": "faq",
+      "blocks": {
+        "questions_CngtXN": {
+          "type": "questions",
+          "settings": {
+            "title": "What makes LALO Tequila Blanco different from other tequilas?",
+            "answer": "<p>LALO Tequila Blanco is crafted with just <strong>three ingredients</strong>—fully mature Blue Weber Agave, Champagne yeast, and deep well water. Nothing is added during processing, allowing the natural essence of agave to shine through in every sip.</p>"
+          }
+        },
+        "questions_KCQQn3": {
+          "type": "questions",
+          "settings": {
+            "title": " How should I drink LALO Tequila Blanco?",
+            "answer": "<p>LALO Tequila Blanco is incredibly versatile. It can be enjoyed <strong>neat, on the rocks, or in cocktails</strong> like the<a href=\"https://lalospirits.com/blogs/recipes/classic-margarita\"> <span style=\"text-decoration:underline\"><strong>Classic Margarita</strong></span></a> and<a href=\"https://lalospirits.com/blogs/recipes/lalo-fresh-paloma\"> <span style=\"text-decoration:underline\"><strong>LALO Fresh Paloma</strong></span></a> for a crisp, smooth drinking experience.<br/></p>"
+          }
+        },
+        "questions_B4Yzfy": {
+          "type": "questions",
+          "settings": {
+            "title": "Where is LALO Tequila Blanco made?",
+            "answer": "<p>LALO Tequila Blanco is produced in <strong>Los Altos deJalisco, Mexico</strong>. It is crafted using traditional methods that honor the region’s deep-rooted tequila heritage.</p>"
+          }
+        },
+        "questions_9Afxzq": {
+          "type": "questions",
+          "settings": {
+            "title": "What is the alcohol content of LALO Tequila Blanco?",
+            "answer": "<p>LALO Tequila Blanco is bottled at <strong>40% ABV (80 proof)</strong>, delivering a smooth and balanced profile that highlights the bright, natural character of agave.</p>"
+          }
+        },
+        "questions_VGfrRC": {
+          "type": "questions",
+          "settings": {
+            "title": "Is anything added to LALO Tequila Blanco during production?",
+            "answer": "<p>No, LALO Tequila Blanco is made using just <strong>three ingredients</strong>—fully mature Blue Weber Agave, Champagne yeast, and deep well water. Nothing is added during processing, ensuring the purest expression of agave in every bottle.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "questions_CngtXN",
+        "questions_KCQQn3",
+        "questions_B4Yzfy",
+        "questions_9Afxzq",
+        "questions_VGfrRC"
+      ],
+      "custom_css": [
+        "p {color: #00178c; /* Lalo blue color */}",
+        "ul {color: #00178c; /* Lalo blue color */ padding-left: 40px; /* Padding equivalent to tab length */}"
+      ],
+      "settings": {
+        "title": "Frequently Asked Questions"
+      }
+    },
+    "related": {
+      "type": "related-products",
+      "settings": {
+        "heading": "Related Products"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "e3c05d80-e9bd-4496-bf1a-9c1779771b70",
+    "faq_iYHaFJ",
+    "related"
+  ]
+}

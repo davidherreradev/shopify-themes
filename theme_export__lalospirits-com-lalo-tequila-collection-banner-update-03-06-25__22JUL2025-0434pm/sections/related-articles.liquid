@@ -1,0 +1,36 @@
+<div class="container mt-24">
+  {% if section.settings.heading != blank %}
+    <h2 class="h3 text-center text-gold">{{ section.settings.heading }}</h2>
+  {% endif %}
+  <div class="mt-10">
+    <div class="flex flex-wrap justify-center gap-x-10 gap-y-14 sm:flex-nowrap">
+      {% assign current_article = article.handle %}
+      {% for article in blog.articles %}
+        {% unless article.handle == current_article %}
+          {% assign related_posts = related_posts | append: article.handle | append: ',' %}
+        {% endunless %}
+      {% endfor %}
+      {% assign related_posts = related_posts | split: ',' %}
+      {% for post in related_posts limit: 3 %}
+        <div class="w-full sm:w-1/2 sm:last:hidden lg:w-1/3 lg:last:block">
+          {% render 'article-card', article: articles[post] %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Related posts",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Related Posts"
+      }
+    ]
+  }
+{% endschema %}

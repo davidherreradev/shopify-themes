@@ -1,0 +1,47 @@
+{% comment %}
+  This is the static shell for the cart notification.
+  The content is dynamically filled by assets/cart-logic.js.
+{% endcomment %}
+
+<cart-notification class="cart-notification-container">
+  <div class="cart-notification-wrapper" role="dialog" aria-modal="true" aria-labelledby="cart-notification-title">
+    <div class="cart-notification">
+      <div class="cart-notification__header">
+        <h2 class="cart-notification__title h4" id="cart-notification-title">
+          <svg aria-hidden="true" focusable="false" class="icon icon-checkmark" width="18" height="13" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.0625 12.375L0.375 7.6875L2.1875 5.875L5.0625 8.75L15.8125 0.625L17.625 2.4375L5.0625 12.375Z" fill="currentColor"/>
+          </svg>
+          {{ 'sections.cart.item_added' | t }}
+        </h2>
+        <button type="button" class="cart-notification__close" aria-label="{{ 'accessibility.close' | t }}">
+          <svg aria-hidden="true" focusable="false" class="icon icon-close" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.5303 1.03033C13.8232 0.737438 13.8232 0.262562 13.5303 0.46967C13.2374 0.176777 12.7626 0.176777 12.4697 0.46967L7 5.93934L1.53033 0.46967C1.23744 0.176777 0.762563 0.176777 0.46967 0.46967C0.176777 0.737438 0.176777 1.26256 0.46967 1.53033L5.93934 7L0.46967 12.4697C0.176777 12.7626 0.176777 13.2374 0.46967 13.5303C0.762563 13.8232 1.23744 13.8232 1.53033 13.5303L7 8.06066L12.4697 13.5303C12.7626 13.8232 13.2374 13.8232 13.5303 13.5303C13.8232 13.2374 13.8232 12.7626 13.5303 12.4697L8.06066 7L13.5303 1.03033Z" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+      <div class="cart-notification__content">
+        <div class="cart-notification-product" data-notification-product>
+          <img data-notification-image class="cart-notification-product__image" src="" alt="" width="75" height="75" loading="lazy">
+          <div class="cart-notification-product__info">
+            <h3 data-notification-title class="cart-notification-product__name p2"></h3>
+            <dl data-notification-options></dl>
+          </div>
+        </div>
+
+        <div class="cart-notification__links">
+          <a href="{{ routes.cart_url }}" class="btn btn--primary btn--small">
+            <span data-notification-cart-count>{{ 'sections.cart.view_cart' | t }} ({{ cart.item_count }})</span>
+          </a>
+          <form action="{{ routes.cart_url }}" method="post" id="cart-notification-form">
+            <button name="checkout" class="btn btn--primary btn--small w-full">
+              {{ 'sections.cart.checkout' | t }}
+            </button>
+          </form>
+          <a href="{{ routes.all_products_collection_url }}" class="link">
+            {{ 'general.continue_shopping' | t }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</cart-notification>

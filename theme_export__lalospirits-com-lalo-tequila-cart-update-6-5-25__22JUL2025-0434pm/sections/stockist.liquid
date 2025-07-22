@@ -1,0 +1,29 @@
+<style>
+  #stockist-widget .stockist-map.stockist-map-leaflet .stockist-map-inner {
+    z-index: 0;
+  }
+
+  #stockist-widget .stockist-powered-by-link {
+    display: none;
+  }
+</style>
+
+{% if section.settings.stockist != blank %}
+  <div class="container mt-12">
+    {{ section.settings.stockist }}
+  </div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Stockist",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "liquid",
+        "id": "stockist",
+        "label": "Stockist embed code"
+      }
+    ]
+  }
+{% endschema %}

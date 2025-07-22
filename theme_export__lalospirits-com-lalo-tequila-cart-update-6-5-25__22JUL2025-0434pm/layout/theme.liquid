@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code }}" class="h-full scroll-pt-40">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="">
+    <meta name="google-site-verification" content="66eOt_WncIbtWYPO98pN1VWzdiK0efR7Uc3eJCVD1Is" />
+    <meta name="seobility" content="48ddbd4373f897ef2833a48c05c0d8fb">
+    <!-- Google Tag Manager -->
+      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-5QSCLXFS');</script>
+    <!-- End Google Tag Manager -->
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    {% if settings.favicon != blank %}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {% endif %}
+    <title>
+      {{ page_title }}
+      {% if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}
+      {% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}
+      {% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+    </title>
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+    {% render 'meta-tags' %}
+    <script src="{{ 'option_selection.js' | shopify_asset_url }}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/url-parse@1.5.10/dist/url-parse.min.js" defer></script>
+    <script src="{{ 'theme.min.js' | asset_url }}" defer></script>
+    {{ content_for_header }}
+    {% render 'fonts' %}
+    {{ 'theme.min.css' | asset_url | stylesheet_tag }}
+    
+    <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/e9c9435c375c86c47206a262b/bc54d45200ce643683ebc9a3c.js");</script>
+    
+  </head>
+  <body class="template-{{ template.name }} flex flex-col h-full font-body text-blue antialiased" data-cart-type="{{ settings.cart_type | default: 'drawer' }}">
+  <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5QSCLXFS"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+    <a href="#MainContent" class="sr-only z-50 bg-blue text-white text-[13px] uppercase tracking-wider focus:not-sr-only focus:absolute focus:px-4 focus:py-3">Skip to content</a>
+    {% comment %} Conditionally load cart components based on settings {% endcomment %}
+    {% if settings.cart_type == 'drawer' %}
+      <cart-drawer>
+        {% render 'cart-drawer' %}
+      </cart-drawer>
+    {% elsif settings.cart_type == 'notification' %}
+      {% render 'cart-notification' %}
+    {% endif %}
+    {% sections 'header-group' %}
+    <main id="MainContent" class="main-content grow">
+      {{ content_for_layout }}
+    </main>
+    {% sections 'footer-group' %}
+    <script src="{{ 'cart-logic.js' | asset_url }}" defer="defer"></script>
+  </body>
+</html>

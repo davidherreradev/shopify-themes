@@ -1,0 +1,75 @@
+<div class="container mt-12">
+  <div class="mx-auto max-w-2xl border-b border-silver">
+    {% if section.settings.title != blank %}
+      <h2 class="h3 text-gold mb-5">
+        {{ section.settings.title }}
+      </h2>
+    {% endif %}
+    <div class="accordion">
+      {% for block in section.blocks %}
+        <div class="ac border-t border-silver">
+          <button type="button" class="ac-trigger link grid grid-cols-[1fr_20px] w-full pt-4 pb-5 text-[17px] text-left">
+            <span class="pr-7 lg:pr-32">
+              {{ block.settings.title }}
+            </span>
+            <span class="ac-icon mt-1.5 text-gold">
+              {% render 'icon-toggle' %}
+            </span>
+          </button>
+          <div class="ac-panel rte rte--compact">
+            <div class="pb-7 text-black">
+              {{ block.settings.answer }}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "FAQ",
+    "tag": "section",
+    "class": "faq",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Question",
+        "type": "questions",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Question",
+            "default": "Question"
+          },
+          {
+            "type": "richtext",
+            "id": "answer",
+            "label": "Answer",
+            "default": "<p>Answer</p>"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "FAQ"
+      }
+    ],
+    "enabled_on": {
+      "templates": [
+        "page",
+        "product",
+        "collection"
+      ]
+    }
+  }
+{% endschema %}

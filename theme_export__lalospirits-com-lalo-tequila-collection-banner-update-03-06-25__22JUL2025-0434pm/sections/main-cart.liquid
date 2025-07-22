@@ -1,0 +1,148 @@
+<div class="container">
+  <h1 class="d2 mt-6 text-center">
+    {{ 'sections.cart.title' | t }}
+  </h1>
+  <div class="mt-10 mx-auto max-w-lg">
+    {% if cart.item_count > 0 %}
+      <form action="{{ routes.cart_url }}" method="post" class="border-t border-silver">
+        {% for item in cart.items %}
+          <div class="flex py-4">
+            <a href="{{ item.url }}" class='block w-1/3 aspect-square'>
+              {% if item.image %}
+                {{ item.image | image_url: width: 350 | image_tag: class: 'object-cover w-full h-full' }}
+              {% else %}  
+                {{ 'image' | placeholder_svg_tag: 'placeholder object-cover w-full h-full' }}
+              {% endif %}
+            </a>
+            <div class="flex flex-col w-2/3 pl-3.5 pb-0.5">
+              <div class="flex grow justify-between">
+                <div>
+                  <a href="{{ item.url }}" class="link inline-block font-medium text-[15px] uppercase tracking-wide">
+                    {{ item.product.title }}
+                  </a>
+                  {% if item.product.has_only_default_variant == false or item.properties.size != 0 %}
+                    <div class="mt-2">
+                      {% if item.product.has_only_default_variant == false %}
+                        {% for option in item.options_with_values %}
+                          <div class="pa2 !text-xs mt-1">{{ option.name }}: {{ option.value }}</div>
+                        {% endfor %}
+                      {% endif %}
+                      {% for property in item.properties %}
+                        {% assign property_first_char = property.first | slice: 0 %}
+                        {% if property.last != blank and property_first_char != '_' %}
+                          <div class="pa2 !text-xs mt-1">{{ property.first }}: {{ property.last }}</div>
+                        {% endif %}
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                  {% if item.selling_plan_allocation != null %}
+                    <div class="pa2 !text-xs mt-1">
+                      {{ item.selling_plan_allocation.selling_plan.name }}
+                    </div>
+                  {% endif %}
+                  {% if item.line_level_discount_allocations != nil %}
+                    <ul role="list" class="mt-4">
+                      {% for discount in item.line_level_discount_allocations %}
+                        <li class="flex items-center">
+                          <span class="inline-block w-3">{% render 'icon-discount' %}</span>
+                          <small class="ml-1.5 text-xs uppercase">{{ discount.discount_application.title }} (-{{ discount.amount | money }})</small>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}
+                </div>
+                <div class="pl-3 font-medium text-right text-sm uppercase tracking-wider">
+                  {% if item.original_line_price != item.final_line_price %}
+                    <s class="block opacity-40">{{ item.original_line_price | money }}</s>
+                  {% endif %}
+                  {{ item.final_line_price | money }}
+                </div>
+              </div>
+              <div class="flex shrink justify-between">
+                <div class="quantity">
+                  <button type="button" name="minus" class="quantity__button">
+                    <span class="sr-only">{{ 'products.product.quantity.decrease' | t: product: item.product.title | escape }}</span>
+                    {% render 'icon-minus' %}
+                  </button>
+                  <label for="Quantity-{{ forloop.index }}" class="sr-only">{{ 'products.product.quantity.label' | t: product: item.product.title | escape }}</label>
+                  <input type="number" name="updates[]" id="Quantity-{{ forloop.index }}" value="{{ item.quantity }}" class="quantity__input">    
+                  <button type="button" name="plus" class="quantity__button">
+                    <span class="sr-only">{{ 'products.product.quantity.increase' | t: product: item.product.title | escape }}</span>
+                    {% render 'icon-plus' %}
+                  </button>
+                </div>
+                <a href="{{ item.url_to_remove }}" aria-label="{{ 'sections.cart.remove' | t }} {{ item.product.title }}" class="link">
+                  <small class="text-[10px] uppercase tracking-wider">{{ 'sections.cart.remove' | t }}</small>
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        {% if settings.cart_note == true %}
+          <div class="cart__note mt-20 py-3 border-t border-silver">
+            <div class="accordion">
+              <div class="ac">
+                <button type="button" class="ac-trigger link grid grid-cols-[1fr_14px] w-full font-medium text-[13px] uppercase tracking-wide text-left">
+                  <span class="pr-7 lg:pr-32">
+                    {{ 'sections.cart.note' | t }}
+                  </span>
+                  <span class="ac-icon mt-0.5 text-gold">
+                    {% render 'icon-plus' %}
+                  </span>
+                </button>
+                <div class="ac-panel">
+                  <label for="Cart-Note" class="sr-only">
+                    {{ 'sections.cart.note_label' | t }}
+                  </label>
+                  <textarea
+                    id="Cart-Note" rows="3"
+                    class="w-full my-2 px-2.5 py-2 p4 placeholder:text-xs border border-silver outline-0 hover:border-gold focus:border-gold transition-colors"
+                    name="note"
+                    placeholder="{{ 'sections.cart.note_label' | t }}"
+                  >{{ cart.note }}</textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+        <div class="flex justify-between pt-5 border-t border-silver">
+          <div class="h4">{{ 'sections.cart.subtotal' | t }}</div>
+          <div class="text-right">
+            <div class="h4">{{ cart.total_price | money }}</div>
+            {% if cart.cart_level_discount_applications.size > 0 %}
+              <ul role="list">
+                {% for discount in cart.cart_level_discount_applications %}
+                  <li class="flex items-center">
+                    <span class="inline-block w-3">{% render 'icon-discount' %}</span>
+                    <small class="ml-1.5 uppercase">{{ discount.title }} (-{{ discount.total_allocated_amount | money }})</small>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        </div>
+        <div class="mt-5">
+          <button name="update" class="btn btn--primary w-full">
+            {{ 'sections.cart.update' | t }}
+          </button>
+          <button name="checkout" class="btn btn--primary w-full mt-3">
+            {{ 'sections.cart.checkout' | t }}
+          </button>
+        </div>
+      </form>
+    {% else %}
+      <div class="mt-24 text-center">
+        <h2 class="h3 text-gold">
+          {{ 'sections.cart.empty' | t }}
+        </h2>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Cart",
+    "tag": "section"
+  }
+{% endschema %}

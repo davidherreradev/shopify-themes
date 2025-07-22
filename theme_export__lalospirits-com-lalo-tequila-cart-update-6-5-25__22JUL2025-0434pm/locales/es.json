@@ -1,0 +1,223 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "general": {
+  },
+  "newsletter": {
+    "label": "Correo electrónico",
+    "success": "¡Gracias, estás en la lista!",
+    "button_label": "Suscribirse"
+  },
+  "accessibility": {
+    "close": "Cerrar"
+  },
+  "blogs": {
+  },
+  "onboarding": {
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Agregar al carrito",
+      "gift_option": "Añadir bolsa de regalo",
+      "on_sale": "Oferta",
+      "sold_out": "Agotado",
+      "quantity": {
+        "label": "Cantidad para {{ product }}",
+        "label_lg": "Cantidad",
+        "increase": "Aumentar cantidad para {{ product }}",
+        "decrease": "Reducir cantidad para {{ product }}"
+      }
+    }
+  },
+  "templates": {
+    "contact": {
+      "form": {
+        "name": "Nombre",
+        "email": "Correo electrónico",
+        "phone": "Número de teléfono",
+        "message": "Comentario",
+        "send": "Enviar",
+        "sending": "Enviando",
+        "success": "¡Mensaje enviado!"
+      }
+    },
+    "donation": {
+      "form": {
+        "name": "Nombre",
+        "email": "Correo electrónico",
+        "organization": "Organización",
+        "website": "URL del sitio web",
+        "event_name": "Nombre del evento",
+        "event_purpose": "Propósito del eventoe",
+        "event_date": "Fecha del evento",
+        "event_note": "Haga la solicitud al menos 8 semanas antes, pero no antes de los 5 meses antes de su evento.",
+        "event_address": "Dirección del evento",
+        "venue": "Nombre del lugar",
+        "cost": "Costo de participación",
+        "other_sponsors": "Otros patrocinadores de licores involucrados",
+        "number_guests": "Numero de invitados",
+        "lalo_employees": "Empleados de LALO que asisten",
+        "vip_attending": "Asistencia VIP",
+        "press_attending": "Asistir a la prensa",
+        "age_legal": "¿Todos los invitados son mayores de 21 años?",
+        "age_note": "LALO Spirits respetuosamente no ofrece artículos de subasta cuando haya menores de 21 años presentes.",
+        "venue_licensed": "¿El lugar tiene licencia para vender alcohol?",
+        "yes": "Sí",
+        "preferred_donations": "Donaciones preferidas",
+        "auction_raffle": "Subasta o sorteo",
+        "spirits_served": "Licores para servir en tu evento",
+        "number_bottles": "Número de botellas",
+        "charitable": "¿Será esto una donación caritativa?",
+        "attach_letter": "Adjunte la carta de estado 501c3",
+        "message": "Comentario",
+        "message_placeholder": "Por favor detalle su solicitud",
+        "social_media": "LALO requiere promoción en redes sociales por parte del anfitrión del evento",
+        "agree": "Acepto promocionar el evento",
+        "send": "Enviar",
+        "sending": "Enviando",
+        "success": "¡Mensaje enviado!"
+      }
+    },
+    "404": {
+      "title": "404 no encontrada",
+      "subtext": "La página solicitada no existe."
+    }
+  },
+  "sections": {
+    "cart": {
+      "checkout": "Pagar pedido",
+      "empty": "Tu carrito esta vacío",
+      "note": "Pedidos",
+      "note_label": "Deje una nota sobre su pedido",
+      "remove": "Eliminar",
+      "subtotal": "Subtotal",
+      "title": "Bolsa",
+      "update": "Actualización",
+      "item_added": "Artículo añadido a la bolsa",
+      "view_cart": "Ver Bolsa",
+      "view_empty_cart": "Ver Bolsa",
+      "continue_shopping": "Seguir comprando"
+    }
+  },
+  "localization": {
+  },
+  "customer": {
+    "account": {
+      "title": "Cuenta",
+      "default_address": "Dirección predeterminada",
+      "view_addresses": "Ver direcciones",
+      "return": "Volver a la cuenta",
+      "sign_out": "Desconectar"
+    },
+    "activate_account": {
+      "title": "Activar cuenta",
+      "password": "Contraseña",
+      "password_confirm": "Confirmar contraseña",
+      "submit": "Activar cuenta",
+      "cancel": "Rechazar invitación"
+    },
+    "addresses": {
+      "title": "Directorio",
+      "default": "Predeterminada",
+      "add_new": "Agregar nuevo",
+      "edit_address": "Editar dirección",
+      "first_name": "Nombre",
+      "last_name": "Apellido",
+      "company": "Empresa",
+      "address1": "Dirección 1",
+      "address2": "Dirección 2",
+      "city": "Ciudad",
+      "country": "País",
+      "state": "Estado",
+      "zip": "Código postal",
+      "phone": "Teléfono",
+      "set_default": "Establecer como dirección predeterminada",
+      "add": "Agregar dirección",
+      "update": "Actualizar",
+      "cancel": "Cancelar",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "delete_confirm": "¿Está seguro\/a de que deseas eliminar esta dirección?",
+      "no_addresses": "No hay direcciones guardadas"
+    },
+    "login_page": {
+      "cancel": "Cancelar",
+      "create_account": "Crear cuenta",
+      "email": "Correo electrónico",
+      "forgot_password": "¿Olvidaste tu contraseña?",
+      "guest_continue": "Continuar",
+      "guest_title": "Continuar como invitado",
+      "password": "Contraseña",
+      "title": "Inicio de sesión",
+      "sign_in": "Iniciar sesión",
+      "submit": "Enviar"
+    },
+    "order": {
+      "title": "Pedido",
+      "cancelled_html": "Pedido cancelado el",
+      "cancelled_reason": "Motivo:",
+      "billing_address": "Dirección de facturación",
+      "payment_status": "Estado del pago",
+      "shipping_address": "Dirección de envío",
+      "fulfillment_status": "Estado de preparación del pedido",
+      "discount": "Descuento",
+      "shipping": "Envío",
+      "tax": "Impuesto",
+      "product": "Producto",
+      "sku": "SKU",
+      "price": "Precio",
+      "quantity": "Cantidad",
+      "total": "Total",
+      "fulfilled_at_html": "Cumplido",
+      "track_shipment": "Hacer seguimiento del envío",
+      "tracking_url": "Enlace de seguimiento",
+      "tracking_company": "Empresa de transporte",
+      "tracking_number": "Número de seguimiento",
+      "subtotal": "Subtotal",
+      "total_duties": "Aranceles",
+      "total_refunded": "Reembolsado",
+      "no_address": "Sin dirección de envío"
+    },
+    "orders": {
+      "title": "Historial de pedidos",
+      "order_number": "Pedido",
+      "order_number_link": "Número de pedido {{ number }}",
+      "date": "Fecha",
+      "payment_status": "Estado del pago",
+      "fulfillment_status": "Estado de preparación del pedido",
+      "total": "Total",
+      "none": "Aún no has realizado ningún pedido."
+    },
+    "recover_password": {
+      "title": "Restablecer la contraseña",
+      "subtext": "Te enviaremos un correo electrónico para restablecer tu contraseña",
+      "success": "Te hemos enviado un correo electrónico con un enlace para actualizar tu contraseña."
+    },
+    "register": {
+      "title": "Crear cuenta",
+      "first_name": "Nombre",
+      "last_name": "Apellido",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "registered": "¿Ya registrado?",
+      "submit": "Crear"
+    },
+    "reset_password": {
+      "title": "Restablecer la contraseña",
+      "password": "Contraseña",
+      "password_confirm": "Confirmar contraseña",
+      "submit": "Reiniciar"
+    }
+  },
+  "gift_cards": {
+  },
+  "recipient": {
+  }
+}

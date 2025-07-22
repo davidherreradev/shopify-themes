@@ -1,0 +1,70 @@
+<style>
+  .announcement-bar p {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    letter-spacing: 0.09em;
+  }
+</style>
+
+{% if section.blocks != blank %}
+  <div class="absolute bottom-0 w-full">
+    <div class="announcement-bar overflow-hidden bg-blue text-white">
+      <div class="swiper-wrapper text-sm text-center leading-tight">
+        {% for block in section.blocks %}
+          <div class="swiper-slide uppercase px-4" data-swiper-autoplay="{{ section.settings.speed }}000">
+            {% if block.settings.link != blank %}
+              <a href="{{ block.settings.link }}" class="block py-2.5">
+            {% else %}
+              <div class="py-2.5">
+            {% endif %}
+                {{ block.settings.text }}
+            {% if block.settings.link != blank %}
+              </a>
+            {% else %}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Announcement bar",
+    "tag": "section",
+    "class": "sticky bottom-0 pb-9",
+    "settings": [
+      {
+        "type": "range",
+        "id": "speed",
+        "min": 1,
+        "max": 20,
+        "step": 1,
+        "unit": "sec",
+        "label": "Autoplay speed",
+        "default": 5
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Announcement",
+        "type": "announcement",
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text",
+            "default": "<p>Announce something here</p>"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Link"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

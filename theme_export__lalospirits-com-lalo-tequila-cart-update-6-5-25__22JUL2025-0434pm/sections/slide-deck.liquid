@@ -1,0 +1,31 @@
+<style>
+  .deck iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    padding: 0 32px;
+  }
+</style>
+
+<div class="container mt-12">
+  <div class="deck relative aspect-video">
+    {{ section.settings.deck }}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Slide deck",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "liquid",
+        "id": "deck",
+        "label": "Slide deck",
+        "info": "Paste embed code here."
+      }
+    ]
+  }
+{% endschema %}

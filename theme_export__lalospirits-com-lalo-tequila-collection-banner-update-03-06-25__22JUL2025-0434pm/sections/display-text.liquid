@@ -1,0 +1,70 @@
+<style>
+  #shopify-section-{{ section.id }} p strong {
+    font-family: var(--font-expanded);
+    font-size: 1.25rem;
+    letter-spacing: 0.15rem;
+    color: var(--color-gold);
+  }
+</style>
+
+<div id="{{ section.settings.anchor }}" class="container mt-24 pb-8">
+  <div class="max-w-[960px] mx-auto text-center">
+    {% if section.settings.heading != blank %}
+      <h2 class="h2 text-gold">
+        {{ section.settings.heading }}
+      </h2>
+    {% endif %}
+    {% if section.settings.text != blank %}
+      <p class="d5 mt-10">
+        {{ section.settings.text }}
+      </p>
+    {% endif %}
+    {% if section.settings.image != blank %}
+      <div class="mt-10">
+        {{ section.settings.image | image_url: width: 640 | image_tag: class: 'image' }}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Display text",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "default": "Heading",
+        "label": "Heading"
+      },
+      {
+        "type": "textarea",
+        "id": "text",
+        "default": "Text",
+        "label": "Text"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "text",
+        "id": "anchor",
+        "label": "Anchor"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Display text"
+      }
+    ],
+    "enabled_on": {
+      "templates": [
+        "index",
+        "page"
+      ]
+    }
+  }
+{% endschema %}

@@ -1,0 +1,101 @@
+<div class="menu-drawer text-white bg-blue w-full h-full overflow-y-scroll px-5 pt-8 pb-20 md:px-7 md:max-w-xl" tabindex="-1" inert>
+  <div class="flex justify-between">
+    <button type="button" class="menu-close block w-6 link" aria-label="Close Menu">
+      {% render 'icon-close' %}
+    </button>
+    <div class="!text-sm">
+      {% render 'localization' %}
+    </div>
+  </div>
+  <div class="max-w-sm mt-12">
+    <nav>
+      <ul role="list" class="accordion">
+        {% if section.settings.menu_left != blank %}
+          {% for link in section.settings.menu_left.links %}
+            <li class="{% if link.levels == 1 %}ac{% endif %}">
+              {% if link.levels == 1 %}
+                <button type="button" class="ac-trigger d3 link flex w-full items-center justify-between py-0.5">
+              {% else %}
+                <a href="{{ link.url }}" class="ac-trigger d3 link flex items-center justify-between py-0.5" {% if link.current %}aria-current="page"{% endif %}>
+              {% endif %}
+                {{ link.title }}
+                {% if link.levels == 1 %}
+                  <span class="ac-icon block w-6 text-gold">
+                    {% render 'icon-toggle' %}
+                  </span>
+                {% endif %}
+              {% if link.levels == 1 %}
+                </button>
+              {% else %}
+                </a>
+              {% endif %}
+              {% if link.links.size > 0 %}
+                <span class="ac-panel block">
+                  <ul role="list">
+                    {% for childlink in link.links %}
+                      <li class="first:pt-2.5 last:pb-2 p3 !text-[15px] uppercase">
+                        <a href="{{ childlink.url }}" class="link block mx-1 px-4 py-1" {% if childlink.current %}aria-current="page"{% endif %}>
+                          {{ childlink.title }}
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </span>
+              {% endif %}
+            </li>
+          {% endfor %}
+        {% endif %}
+        {% if section.settings.menu_right != blank %}
+          {% for link in section.settings.menu_right.links %}
+            <li class="{% if link.levels == 1 %}ac{% endif %}">
+              {% if link.levels == 1 %}
+                <button type="button" class="ac-trigger d3 link flex w-full items-center justify-between py-0.5">
+              {% else %}
+                <a href="{{ link.url }}" class="ac-trigger d3 link flex items-center justify-between py-0.5" {% if link.current %}aria-current="page"{% endif %}>
+              {% endif %}
+                {{ link.title }}
+                {% if link.levels == 1 %}
+                  <span class="ac-icon inline-block w-6 text-gold">
+                    {% render 'icon-toggle' %}
+                  </span>
+                {% endif %}
+              {% if link.levels == 1 %}
+                </button>
+              {% else %}
+                </a>
+              {% endif %}
+              {% if link.links.size > 0 %}
+                <span class="ac-panel block">
+                  <ul role="list">
+                    {% for childlink in link.links %}
+                      <li class="first:pt-2.5 last:pb-2 p3 !text-[15px] uppercase">
+                        <a href="{{ childlink.url }}" class="link block px-5 py-1" {% if childlink.current %}aria-current="page"{% endif %}>
+                          {{ childlink.title }}
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </span>
+              {% endif %}
+            </li>
+          {% endfor %}
+        {% endif %}
+      </ul>
+    </nav>
+    {% if section.settings.menu_social != blank %}
+      <ul role="list" class="mt-11">
+        {% for link in section.settings.menu_social.links %}
+          <li class="w-1/2">
+            <a href="{{ link.url }}" class="link h5 flex items-center max-w-fit py-1">
+              {{ link.title }}
+              <span class="inline-block ml-2 w-[17px] text-gold">
+                {% render 'icon-arrow-right' %}
+              </span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+</div>
+<div class="menu-overlay fixed inset-0 bg-blue opacity-60"></div>
